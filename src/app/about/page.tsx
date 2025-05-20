@@ -7,10 +7,11 @@ import { Leaf, Target, CheckCircle, Sprout, MessageCircle, Heart } from 'lucide-
 import Link from 'next/link';
 import { PexelsImage } from '@/components/shared/PexelsImage';
 
-export const metadata = {
-  title: 'About BioWe | Our Story, Mission, and Values',
-  description: 'Learn more about BioWe, our commitment to sustainable gardening, quality products, and the passion that drives us to help your green oasis flourish.',
-};
+// Removed metadata export as it's not allowed in client components
+// export const metadata = {
+//   title: 'About BioWe | Our Story, Mission, and Values',
+//   description: 'Learn more about BioWe, our commitment to sustainable gardening, quality products, and the passion that drives us to help your green oasis flourish.',
+// };
 
 export default function AboutUsPage() {
   const values = [
