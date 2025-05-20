@@ -14,6 +14,7 @@ import { ProductPageAddToCartButton } from '@/components/products/ProductPageAdd
 import { StarRating } from '@/components/shared/StarRating';
 import React, { useState, useEffect } from 'react';
 import { Separator } from '@/components/ui/separator';
+import { cn } from '@/lib/utils'; // Import cn utility
 
 async function getProductById(id: string): Promise<Product | undefined> {
   // In a real app, you'd fetch this from a CMS or database
@@ -28,13 +29,13 @@ async function getProductById(id: string): Promise<Product | undefined> {
 // Helper component to render sections
 interface ProductInfoSectionProps {
   title: string;
-  content: string[] | string | undefined;
+  content: string[] | string | undefined | React.ReactNode; // Allow ReactNode for review section
   IconComponent: React.ElementType;
   className?: string;
 }
 
 const ProductInfoSection: React.FC<ProductInfoSectionProps> = ({ title, content, IconComponent, className }) => {
-  if (!content || (Array.isArray(content) && content.length === 0)) {
+  if (!content || (Array.isArray(content) && content.length === 0 && typeof content !== 'string' && !React.isValidElement(content))) {
     return null;
   }
 
@@ -50,7 +51,7 @@ const ProductInfoSection: React.FC<ProductInfoSectionProps> = ({ title, content,
             {content.map((item, index) => <li key={index}>{item}</li>)}
           </ul>
         ) : (
-          <p>{content}</p>
+          <div>{content}</div> // Use div to wrap string or ReactNode
         )}
       </div>
     </section>
@@ -77,7 +78,7 @@ export default function ProductDetailPage() {
     if (routeParams && typeof routeParams.id === 'string') {
       fetchProduct(routeParams.id);
     } else {
-      setIsLoading(false);
+      setIsLoading(false); // Handle cases where ID might not be available initially
     }
   }, [routeParams?.id]);
 
@@ -249,3 +250,4 @@ export default function ProductDetailPage() {
     </div>
   );
 }
+
