@@ -1,17 +1,26 @@
-
 "use client";
 
 import Link from 'next/link';
-import { Leaf, ShoppingBag } from 'lucide-react';
+import Image from 'next/image';
+import { useState } from 'react';
+import { ShoppingBag, Menu } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
 
 export function Navbar() {
   const { getCartItemCount } = useCart();
   const pathname = usePathname();
   const cartItemCount = getCartItemCount();
+  const [isOpen, setIsOpen] = useState(false);
 
   const navLinks = [
     { href: '/', label: 'Home' },
@@ -41,11 +50,18 @@ export function Navbar() {
     <header className="bg-background shadow-md sticky top-0 z-50">
       <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
-          <Link href="/" className="flex items-center space-x-2">
-            <Leaf className="h-8 w-8 text-[#228B22]" />
-            <span className="text-2xl font-bold text-[#228B22]">BioWe</span>
+          <Link href="/">
+            <Image 
+              src="/images/products/Biowe logo.png"
+              alt="BioWe Logo"
+              width={120}
+              height={120}
+              className="object-contain"
+              priority
+            />
           </Link>
           
+          {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-6">
             {navLinks.map((link) => (
               <Link
@@ -63,8 +79,8 @@ export function Navbar() {
             ))}
           </div>
 
-          <div className="flex items-center">
-             <Link href="/cart" className="relative flex items-center text-foreground hover:text-primary transition-colors p-2">
+          <div className="flex items-center space-x-4">
+            <Link href="/cart" className="relative flex items-center text-foreground hover:text-primary transition-colors p-2">
               <ShoppingBag className="h-7 w-7" />
               {cartItemCount > 0 && (
                 <Badge variant="destructive" className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center rounded-full text-xs">
@@ -73,7 +89,40 @@ export function Navbar() {
               )}
               <span className="sr-only">View shopping cart</span>
             </Link>
-            {/* Mobile menu button can be added here if needed later */}
+
+            {/* Mobile Menu */}
+            <div className="md:hidden">
+              <Sheet open={isOpen} onOpenChange={setIsOpen}>
+                <SheetTrigger asChild>
+                  <button className="p-2 text-foreground hover:text-primary transition-colors">
+                    <Menu className="h-7 w-7" />
+                    <span className="sr-only">Open menu</span>
+                  </button>
+                </SheetTrigger>
+                <SheetContent side="right" className="w-[300px]">
+                  <SheetHeader>
+                    <SheetTitle>Navigation Menu</SheetTitle>
+                  </SheetHeader>
+                  <div className="mt-8 flex flex-col space-y-4">
+                    {navLinks.map((link) => (
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        onClick={() => setIsOpen(false)}
+                        className={cn(
+                          "text-lg hover:text-primary transition-colors px-4 py-2 rounded-md",
+                          getIsActive(pathname, link.href)
+                            ? "text-primary font-semibold bg-primary/10" 
+                            : "text-foreground"
+                        )}
+                      >
+                        {link.label}
+                      </Link>
+                    ))}
+                  </div>
+                </SheetContent>
+              </Sheet>
+            </div>
           </div>
         </div>
       </nav>
