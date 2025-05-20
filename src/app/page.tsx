@@ -93,7 +93,7 @@ function WhyChooseUsSection() {
   ];
 
   return (
-    <section className="mb-16 py-12 bg-muted rounded-xl shadow-md">
+    <section className="mb-16 py-12">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl font-bold tracking-tight text-center text-secondary mb-12">Why BioWe?</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
