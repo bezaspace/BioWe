@@ -9,16 +9,11 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardFooter } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion"
-import { ArrowLeft, MinusCircle, PlusCircle, CheckCircle, XCircle, Info, BookOpen, ShieldAlert, MessageSquare, ThumbsUp, Package, Send } from 'lucide-react';
+import { ArrowLeft, MinusCircle, PlusCircle, CheckCircle, XCircle, Info, BookOpen, ShieldAlert, MessageSquare, ThumbsUp, Package, Send, ListChecks, Settings, Leaf, Activity } from 'lucide-react';
 import { ProductPageAddToCartButton } from '@/components/products/ProductPageAddToCartButton';
 import { StarRating } from '@/components/shared/StarRating';
 import React, { useState, useEffect } from 'react';
+import { Separator } from '@/components/ui/separator';
 
 async function getProductById(id: string): Promise<Product | undefined> {
   // In a real app, you'd fetch this from a CMS or database
@@ -30,8 +25,41 @@ async function getProductById(id: string): Promise<Product | undefined> {
   });
 }
 
-export default function ProductDetailPage() { // Removed params from props
-  const routeParams = useParams<{ id: string }>(); // Use the useParams hook
+// Helper component to render sections
+interface ProductInfoSectionProps {
+  title: string;
+  content: string[] | string | undefined;
+  IconComponent: React.ElementType;
+  className?: string;
+}
+
+const ProductInfoSection: React.FC<ProductInfoSectionProps> = ({ title, content, IconComponent, className }) => {
+  if (!content || (Array.isArray(content) && content.length === 0)) {
+    return null;
+  }
+
+  return (
+    <section className={cn("py-6", className)}>
+      <h2 className="text-2xl font-semibold mb-4 flex items-center text-secondary">
+        <IconComponent className="mr-3 h-6 w-6" />
+        {title}
+      </h2>
+      <div className="text-base text-foreground space-y-2 pl-1">
+        {Array.isArray(content) ? (
+          <ul className="list-disc list-outside ml-5 space-y-1">
+            {content.map((item, index) => <li key={index}>{item}</li>)}
+          </ul>
+        ) : (
+          <p>{content}</p>
+        )}
+      </div>
+    </section>
+  );
+};
+
+
+export default function ProductDetailPage() {
+  const routeParams = useParams<{ id: string }>();
   const [product, setProduct] = useState<Product | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
@@ -42,8 +70,6 @@ export default function ProductDetailPage() { // Removed params from props
       const fetchedProduct = await getProductById(productId);
       if (fetchedProduct) {
         setProduct(fetchedProduct);
-      } else {
-        // The existing notFound() call outside this effect will handle it if product remains null
       }
       setIsLoading(false);
     }
@@ -51,12 +77,9 @@ export default function ProductDetailPage() { // Removed params from props
     if (routeParams && typeof routeParams.id === 'string') {
       fetchProduct(routeParams.id);
     } else {
-      // Handle cases where id might not be available as expected
       setIsLoading(false);
-      // Potentially call notFound() here if id is crucial and missing,
-      // though the page structure implies it should always exist.
     }
-  }, [routeParams?.id]); // Depend on routeParams.id
+  }, [routeParams?.id]);
 
   if (isLoading) {
     return (
@@ -68,7 +91,7 @@ export default function ProductDetailPage() { // Removed params from props
   }
 
   if (!product) {
-    notFound(); // Triggers the not-found page if product is null after loading attempts
+    notFound();
   }
 
   const handleQuantityChange = (amount: number) => {
@@ -80,31 +103,6 @@ export default function ProductDetailPage() { // Removed params from props
 
   const availabilityColor = product.availability === 'In Stock' ? 'text-green-600' : product.availability === 'Out of Stock' ? 'text-red-600' : 'text-yellow-600';
   const AvailabilityIcon = product.availability === 'In Stock' ? CheckCircle : product.availability === 'Out of Stock' ? XCircle : Info;
-
-  const renderInfoSection = (title: string, content: string[] | string | undefined, IconComponent: React.ElementType) => {
-    if (!content || (Array.isArray(content) && content.length === 0)) {
-      return null;
-    }
-    return (
-      <AccordionItem value={title.toLowerCase().replace(/\s+/g, '-')}>
-        <AccordionTrigger className="text-lg font-semibold">
-          <div className="flex items-center">
-            <IconComponent className="mr-2 h-5 w-5 text-secondary" />
-            {title}
-          </div>
-        </AccordionTrigger>
-        <AccordionContent className="text-base text-muted-foreground space-y-2 pl-2">
-          {Array.isArray(content) ? (
-            <ul className="list-disc list-outside ml-5 space-y-1">
-              {content.map((item, index) => <li key={index}>{item}</li>)}
-            </ul>
-          ) : (
-            <p>{content}</p>
-          )}
-        </AccordionContent>
-      </AccordionItem>
-    );
-  };
 
   return (
     <div className="max-w-5xl mx-auto">
@@ -193,75 +191,61 @@ export default function ProductDetailPage() { // Removed params from props
         </div>
         
         <CardContent className="p-6 sm:p-8 border-t">
-          <Accordion type="multiple" className="w-full space-y-4">
+          <div className="space-y-6">
             {product.features && product.features.length > 0 && (
-              <AccordionItem value="features">
-                <AccordionTrigger className="text-lg font-semibold">
-                   <div className="flex items-center">
-                    <ThumbsUp className="mr-2 h-5 w-5 text-secondary" />
-                    Key Features
-                  </div>
-                </AccordionTrigger>
-                <AccordionContent className="text-base text-muted-foreground space-y-1 pl-2">
-                  <ul className="list-disc list-outside ml-5">
-                    {product.features.map((feature, index) => <li key={index}>{feature}</li>)}
-                  </ul>
-                </AccordionContent>
-              </AccordionItem>
+              <ProductInfoSection
+                title="Key Features"
+                content={product.features}
+                IconComponent={ListChecks}
+              />
             )}
 
-            {renderInfoSection("How to Use", product.howToUse, BookOpen)}
-            {renderInfoSection("Ingredients / Composition", product.ingredients, Info)}
-            {renderInfoSection("Safety Information", product.safetyInfo, ShieldAlert)}
+            <ProductInfoSection
+              title="How to Use"
+              content={product.howToUse}
+              IconComponent={Settings}
+            />
+            
+            <ProductInfoSection
+              title="Ingredients / Composition"
+              content={product.ingredients}
+              IconComponent={Leaf}
+            />
 
-            <AccordionItem value="customer-reviews">
-              <AccordionTrigger className="text-lg font-semibold">
-                <div className="flex items-center">
-                  <MessageSquare className="mr-2 h-5 w-5 text-secondary" />
-                  Customer Reviews
-                </div>
-              </AccordionTrigger>
-              <AccordionContent className="text-base text-muted-foreground">
-                {product.rating !== undefined && product.reviewCount !== undefined && product.reviewCount > 0 ? (
-                  <div className="mb-4">
-                    <StarRating rating={product.rating} reviewCount={product.reviewCount} starClassName="h-6 w-6" />
-                  </div>
-                ) : null}
-                <p>Full customer reviews functionality coming soon!</p>
-                {/* Placeholder for actual review list and submission form */}
-              </AccordionContent>
-            </AccordionItem>
+            <ProductInfoSection
+              title="Safety Information"
+              content={product.safetyInfo}
+              IconComponent={ShieldAlert}
+            />
 
-            <AccordionItem value="related-products">
-              <AccordionTrigger className="text-lg font-semibold">
-                <div className="flex items-center">
-                  <Package className="mr-2 h-5 w-5 text-secondary" />
-                  Related Products
-                </div>
-              </AccordionTrigger>
-              <AccordionContent className="text-base text-muted-foreground">
-                <p>Suggestions for related products coming soon!</p>
-                {/* Placeholder for related products list */}
-              </AccordionContent>
-            </AccordionItem>
+            <Separator />
 
-            <AccordionItem value="shipping-returns">
-              <AccordionTrigger className="text-lg font-semibold">
-                <div className="flex items-center">
-                  <Send className="mr-2 h-5 w-5 text-secondary" />
-                  Shipping & Return Information
-                </div>
-              </AccordionTrigger>
-              <AccordionContent className="text-base text-muted-foreground space-y-2">
-                <p><strong>Shipping:</strong> We typically ship orders within 1-2 business days. Standard shipping takes 3-5 business days. Expedited options available at checkout.</p>
-                <p><strong>Returns:</strong> We offer a 30-day return policy on unopened products. Please contact our customer service for return authorizations.</p>
-              </AccordionContent>
-            </AccordionItem>
+            <ProductInfoSection
+              title="Customer Reviews"
+              content={product.rating !== undefined && product.reviewCount !== undefined && product.reviewCount > 0 ? 
+                (<div><StarRating rating={product.rating} reviewCount={product.reviewCount} starClassName="h-6 w-6" /><p className="mt-2 text-sm text-muted-foreground">Full customer reviews functionality coming soon!</p></div>) : 
+                "No reviews yet. Be the first to review!"}
+              IconComponent={MessageSquare}
+            />
+            
+            <Separator />
 
-          </Accordion>
+            <ProductInfoSection
+              title="Related Products"
+              content="Suggestions for related products coming soon!"
+              IconComponent={Package}
+            />
+
+            <Separator />
+            
+            <ProductInfoSection
+              title="Shipping & Return Information"
+              content={['We typically ship orders within 1-2 business days. Standard shipping takes 3-5 business days. Expedited options available at checkout.', 'We offer a 30-day return policy on unopened products. Please contact our customer service for return authorizations.']}
+              IconComponent={Send}
+            />
+          </div>
         </CardContent>
       </Card>
     </div>
   );
 }
-
