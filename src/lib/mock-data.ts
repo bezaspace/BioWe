@@ -75,6 +75,7 @@ export const mockBlogPosts: BlogPost[] = [
     dataAiHint: 'organic garden',
     date: '2024-05-15T10:00:00Z',
     author: 'Jane GreenThumb',
+    content: 'Organic gardening is more than just a trend; it’s a commitment to sustainable practices and healthier living. This guide will walk you through the essentials to start your own organic garden, no matter the size of your space.\\n\\nFirst, understand your soil. Healthy soil is the cornerstone of organic gardening. Get a soil test to understand its pH and nutrient levels. Amend your soil with compost and other organic matter to improve its structure and fertility. BioWe offers excellent organic compost to get you started!\\n\\nNext, choose your plants wisely. Opt for native plants or varieties well-suited to your climate. This reduces the need for excessive watering and pest control. Consider companion planting to naturally deter pests and enhance growth. For example, basil planted near tomatoes can repel certain insects and improve tomato flavor.\\n\\nWatering effectively is crucial. Water deeply but infrequently to encourage strong root development. Morning is the best time to water, as it allows leaves to dry during the day, reducing the risk of fungal diseases.\\n\\nFinally, embrace natural pest and disease control. Encourage beneficial insects like ladybugs and lacewings. Use physical barriers or organic sprays like neem oil if pests become a problem. BioWe’s Eco-Friendly Pest Control Spray is a great option. Happy gardening!',
   },
   {
     id: '2',
@@ -86,6 +87,7 @@ export const mockBlogPosts: BlogPost[] = [
     dataAiHint: 'colorful flowers',
     date: '2024-05-22T14:30:00Z',
     author: 'Alex Roots',
+    content: 'Every gardener dreams of a profusion of vibrant blooms. The key? The right nutrition. At BioWe, we’ve formulated a range of organic fertilizers to help your flowering plants thrive. Here are our top 5 picks:\\n\\n1. BioWe Organic Bloom Booster: Specially designed to enhance flowering and fruiting. Rich in phosphorus and potassium, it encourages abundant, long-lasting blooms.\\n\\n2. BioWe All-Purpose Plant Food: A balanced fertilizer that supports overall plant health, leading to stronger stems and more resilient flowers. Great for a wide variety of flowering annuals and perennials.\\n\\n3. BioWe Rose & Flower Care: Tailored for roses and other demanding flowering shrubs, this mix promotes brilliant colors and healthy foliage.\\n\\n4. BioWe Liquid Seaweed Extract: A fantastic supplement that provides trace minerals and growth hormones, acting as a biostimulant for impressive floral displays.\\n\\n5. BioWe Bone Meal: A natural source of phosphorus, essential for root development and flower production. Incorporate it into the soil when planting or as a top dressing for established plants.\\n\\nRemember to follow application instructions for each product to achieve the best results. With BioWe, your garden will be the envy of the neighborhood!',
   },
   {
     id: '3',
@@ -97,8 +99,9 @@ export const mockBlogPosts: BlogPost[] = [
     dataAiHint: 'balcony garden',
     date: '2024-06-01T09:15:00Z',
     author: 'Sarah Sprouts',
+    content: 'Living in an apartment or home with limited outdoor space doesn’t mean you have to give up on your gardening dreams. Container gardening offers a fantastic way to cultivate plants on balconies, patios, or even sunny windowsills.\\n\\nChoose the right containers. Ensure they have adequate drainage holes. The size of the container should match the mature size of the plant. Materials vary from terracotta (dries out faster) to plastic (retains moisture longer) and fabric pots (excellent aeration). BioWe offers a range of stylish and functional self-watering planters.\\n\\nUse quality potting mix. Don’t use garden soil in containers, as it compacts easily. BioWe Premium Potting Mix is specifically formulated for container gardening, providing good drainage and aeration while retaining necessary moisture and nutrients.\\n\\nSelect appropriate plants. Many vegetables, herbs, and flowers thrive in containers. Consider dwarf varieties of your favorite plants. Herbs like basil, mint, and rosemary are excellent choices, as are compact tomatoes, peppers, and lettuce. For flowers, try petunias, geraniums, or succulents.\\n\\nWatering and fertilizing. Container plants dry out more quickly than those in the ground, so monitor moisture levels regularly. Fertilize as needed, as nutrients can leach out with watering. BioWe’s liquid fertilizers are easy to apply for container plants.\\n\\nMaximize your space. Use vertical planters, hanging baskets, and tiered shelving to make the most of your small area. With a little creativity, your small space can become a green oasis!',
   },
-    {
+  {
     id: '4',
     slug: 'understanding-soil-health',
     title: 'The Dirt on Soil: Understanding Soil Health for a Thriving Garden',
@@ -108,5 +111,6 @@ export const mockBlogPosts: BlogPost[] = [
     dataAiHint: 'garden soil',
     date: '2024-06-10T11:00:00Z',
     author: 'Mike Gardener',
+    content: 'Often overlooked, soil is the single most important ingredient for a flourishing garden. Understanding and nurturing your soil’s health will pay dividends in the form of robust plants and bountiful harvests.\\n\\nSoil is a living ecosystem, teeming with microorganisms, fungi, and earthworms that break down organic matter and make nutrients available to plants. Good soil structure allows for proper aeration, drainage, and root penetration.\\n\\nKey components of healthy soil include: Organic Matter (compost, manure, leaf mold), Minerals (sand, silt, clay), and Pore Spaces (for air and water). The ideal soil, often called loam, has a balanced mix of these.\\n\\nHow to improve your soil? Add organic matter regularly. Compost is king! It improves soil structure, water retention, and nutrient content. BioWe’s Premium Potting Mix and Organic Bloom Booster are excellent sources of organic matter for different needs. Avoid tilling excessively, as it can damage soil structure and harm beneficial organisms. Consider cover crops like clover or rye during the off-season to prevent erosion and add organic matter when tilled in.\\n\\nMulching is another great practice. A layer of organic mulch (wood chips, straw, shredded leaves) helps retain moisture, suppress weeds, and regulate soil temperature. As it decomposes, it also adds organic matter to the soil.\\n\\nBy focusing on building healthy soil, you’re creating a sustainable foundation for your garden to thrive for years to come. BioWe is here to support your journey to better soil and better gardening!',
   },
 ];

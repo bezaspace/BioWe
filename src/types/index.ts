@@ -25,6 +25,6 @@ export interface BlogPost {
   dataAiHint: string;
   date: string; // ISO date string
   author: string;
-  // content: string; // Full content for the blog post page
+  content: string; // Full content for the blog post page
   // category: string;
 }
