@@ -1,4 +1,5 @@
-import type { Product } from '@/types';
+
+import type { Product, BlogPost } from '@/types';
 
 export const mockProducts: Product[] = [
   {
@@ -60,5 +61,52 @@ export const mockProducts: Product[] = [
     imageAlt: 'Self-watering planter pot',
     category: 'Pots & Planters',
     dataAiHint: 'plant pot'
+  },
+];
+
+export const mockBlogPosts: BlogPost[] = [
+  {
+    id: '1',
+    slug: 'getting-started-with-organic-gardening',
+    title: 'Getting Started with Organic Gardening: A Beginner\'s Guide',
+    excerpt: 'Discover the joys of organic gardening! This guide covers the basics, from soil preparation to choosing the right plants for your eco-friendly garden.',
+    imageSrc: 'https://placehold.co/800x450.png',
+    imageAlt: 'Lush organic vegetable garden',
+    dataAiHint: 'organic garden',
+    date: '2024-05-15T10:00:00Z',
+    author: 'Jane GreenThumb',
+  },
+  {
+    id: '2',
+    slug: 'top-5-fertilizers-for-vibrant-blooms',
+    title: 'Top 5 BioWe Fertilizers for Vibrant Blooms',
+    excerpt: 'Unlock the secret to stunning flowers with our top-rated organic fertilizers. Learn which BioWe product is perfect for your blooming beauties.',
+    imageSrc: 'https://placehold.co/800x450.png',
+    imageAlt: 'Colorful flowers blooming in a garden',
+    dataAiHint: 'colorful flowers',
+    date: '2024-05-22T14:30:00Z',
+    author: 'Alex Roots',
+  },
+  {
+    id: '3',
+    slug: 'container-gardening-tips-for-small-spaces',
+    title: 'Container Gardening Magic: Tips for Small Spaces',
+    excerpt: 'No backyard? No problem! Explore creative container gardening ideas to grow your own food and flowers, even on a balcony or patio.',
+    imageSrc: 'https://placehold.co/800x450.png',
+    imageAlt: 'Assortment of plants in pots on a balcony',
+    dataAiHint: 'balcony garden',
+    date: '2024-06-01T09:15:00Z',
+    author: 'Sarah Sprouts',
+  },
+    {
+    id: '4',
+    slug: 'understanding-soil-health',
+    title: 'The Dirt on Soil: Understanding Soil Health for a Thriving Garden',
+    excerpt: 'Healthy soil is the foundation of a successful garden. Learn about soil composition, amendments, and how BioWe products can help improve your soil structure.',
+    imageSrc: 'https://placehold.co/800x450.png',
+    imageAlt: 'Close up of rich, dark garden soil',
+    dataAiHint: 'garden soil',
+    date: '2024-06-10T11:00:00Z',
+    author: 'Mike Gardener',
   },
 ];

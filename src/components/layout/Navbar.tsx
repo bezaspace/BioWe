@@ -15,6 +15,7 @@ export function Navbar() {
 
   const navLinks = [
     { href: '/', label: 'Products' },
+    { href: '/blog', label: 'Blog' },
     { href: '/cart', label: 'Cart' },
     { href: '/contact', label: 'Contact Us' },
   ];
@@ -35,7 +36,9 @@ export function Navbar() {
                 href={link.href}
                 className={cn(
                   "text-lg hover:text-primary transition-colors",
-                  pathname === link.href ? "text-primary font-semibold" : "text-foreground"
+                  (pathname === link.href || (link.href === '/blog' && pathname.startsWith('/blog'))) 
+                    ? "text-primary font-semibold" 
+                    : "text-foreground"
                 )}
               >
                 {link.label}

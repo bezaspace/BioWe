@@ -14,3 +14,17 @@ export interface CartItem {
   product: Product;
   quantity: number;
 }
+
+export interface BlogPost {
+  id: string;
+  slug: string;
+  title: string;
+  excerpt: string;
+  imageSrc: string;
+  imageAlt: string;
+  dataAiHint: string;
+  date: string; // ISO date string
+  author: string;
+  // content: string; // Full content for the blog post page
+  // category: string;
+}
