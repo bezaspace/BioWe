@@ -1,6 +1,6 @@
 
 import type { Metadata } from 'next';
-import { Inter as FontSans } from 'next/font/google';
+import { Poppins as FontSans } from 'next/font/google'; // Changed from Inter to Poppins
 import './globals.css';
 import { cn } from '@/lib/utils';
 import { CartProvider } from '@/context/CartContext';
@@ -9,6 +9,7 @@ import { AppLayout } from '@/components/layout/AppLayout';
 const fontSans = FontSans({
   subsets: ['latin'],
   variable: '--font-sans',
+  weight: ['300', '400', '500', '600', '700'], // Added weights for Poppins
 });
 
 export const metadata: Metadata = {
