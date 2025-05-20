@@ -1,7 +1,7 @@
 
 "use client";
 
-import { notFound } from 'next/navigation';
+import { notFound, useParams } from 'next/navigation'; // Import useParams
 import type { BlogPost } from '@/types';
 import { mockBlogPosts } from '@/lib/mock-data';
 import { CalendarDays, ArrowLeft } from 'lucide-react';
@@ -18,23 +18,32 @@ async function getPostBySlug(slug: string): Promise<BlogPost | undefined> {
   return Promise.resolve(mockBlogPosts.find(post => post.slug === slug));
 }
 
-export default function BlogPostPage({ params }: { params: { slug: string } }) {
+export default function BlogPostPage() { // Removed params from props
+  const params = useParams<{ slug: string }>(); // Use the hook
+  const slug = params?.slug; // Get slug from params
+
   const [post, setPost] = useState<BlogPost | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (params.slug) {
-      getPostBySlug(params.slug).then(fetchedPost => {
+    if (slug) {
+      setIsLoading(true);
+      getPostBySlug(slug).then(fetchedPost => {
         if (fetchedPost) {
           setPost(fetchedPost);
-        } else {
-          // Trigger notFound if post isn't found after attempting to fetch
-          // This needs to be handled carefully in client components
         }
+        // If fetchedPost is undefined, the `if (!post && !isLoading)` check later will handle notFound()
         setIsLoading(false);
+      }).catch(error => {
+        console.error("Error fetching blog post:", error);
+        setIsLoading(false);
+        // Potentially trigger notFound() here too, or rely on the existing check
       });
+    } else if (params && !slug && !isLoading) {
+      // This condition might be hit if params are resolved but slug is unexpectedly missing
+      // However, the primary check `if (!post && !isLoading)` after the effect should catch this
     }
-  }, [params.slug]);
+  }, [slug]); // Depend on slug from useParams
 
   if (isLoading) {
     return (
@@ -50,7 +59,6 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
     // explicitly call it. Note: `notFound()` only works as expected during rendering from Server Components.
     // In client components, you might redirect or show a custom "not found" UI.
     // For simplicity here, we rely on initial load or a redirect if Next.js routing handles it.
-    // If params.slug was invalid from the start, Next.js might show its own 404.
     // If getPostBySlug truly can't find it, this is where you'd handle it.
     // A robust solution might involve `router.replace('/404')` if `useRouter` is used.
     notFound(); // Call this to trigger Next.js's not found mechanism
@@ -110,3 +118,4 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
 // export async function generateMetadata({ params }: { params: { slug: string } }) {
 //   // ...
 // }
+
