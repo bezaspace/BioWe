@@ -1,6 +1,8 @@
+
 "use client";
 
 import Image from 'next/image';
+import Link from 'next/link';
 import type { Product } from '@/types';
 import { useCart } from '@/context/CartContext';
 import { Button } from '@/components/ui/button';
@@ -26,7 +28,7 @@ export function ProductCard({ product }: ProductCardProps) {
   return (
     <Card className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 h-full">
       <CardHeader className="p-0">
-        <div className="aspect-[4/3] relative w-full">
+        <Link href={`/products/${product.id}`} className="block aspect-[4/3] relative w-full">
           <Image
             src={product.imageSrc}
             alt={product.imageAlt}
@@ -35,10 +37,14 @@ export function ProductCard({ product }: ProductCardProps) {
             className="object-cover"
             data-ai-hint={product.dataAiHint}
           />
-        </div>
+        </Link>
       </CardHeader>
       <CardContent className="p-4 flex-grow">
-        <CardTitle className="text-xl mb-1">{product.name}</CardTitle>
+        <CardTitle className="text-xl mb-1">
+          <Link href={`/products/${product.id}`} className="hover:text-primary transition-colors">
+            {product.name}
+          </Link>
+        </CardTitle>
         <p className="text-lg font-semibold text-primary mb-2">${product.price.toFixed(2)}</p>
         <CardDescription className="text-sm text-muted-foreground line-clamp-3">{product.description}</CardDescription>
       </CardContent>
