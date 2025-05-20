@@ -2,20 +2,20 @@
 "use client"; // For useState and event handlers
 
 import Image from 'next/image';
-import { notFound, useParams } from 'next/navigation'; // Import useParams
+import { notFound, useParams } from 'next/navigation';
 import type { Product } from '@/types';
 import { mockProducts } from '@/lib/mock-data';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardFooter } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { ArrowLeft, MinusCircle, PlusCircle, CheckCircle, XCircle, Info, BookOpen, ShieldAlert, MessageSquare, ThumbsUp, Package, Send, ListChecks, Settings, Leaf, Activity, Star } from 'lucide-react';
+import { ArrowLeft, MinusCircle, PlusCircle, CheckCircle, XCircle, Info, ListChecks, Settings, Leaf, ShieldAlert, MessageSquare, Package, Send } from 'lucide-react';
 import { ProductPageAddToCartButton } from '@/components/products/ProductPageAddToCartButton';
 import { StarRating } from '@/components/shared/StarRating';
 import React, { useState, useEffect } from 'react';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
-import { ProductList } from '@/components/products/ProductList'; // Import ProductList
+import { ProductList } from '@/components/products/ProductList';
 
 async function getProductById(id: string): Promise<Product | undefined> {
   return new Promise(resolve => {
@@ -34,10 +34,7 @@ interface ProductInfoSectionProps {
 
 const ProductInfoSection: React.FC<ProductInfoSectionProps> = ({ title, content, IconComponent, className }) => {
   if (!content || (Array.isArray(content) && content.length === 0 && typeof content !== 'string' && !React.isValidElement(content))) {
-    // If content is specifically an empty array for related products or similar, allow it to render a "no items" message if desired by the caller.
-    // The ProductList component handles its own "no products found" message.
-    // For other types of empty content, we might return null.
-    // For this specific use case, we will let the caller decide to render or not, or pass specific empty state content.
+    // Let caller handle empty content display logic (e.g. "No related products")
   }
 
   return (
@@ -69,37 +66,41 @@ export default function ProductDetailPage() {
 
   useEffect(() => {
     async function fetchProductData(productId: string) {
-      setIsLoading(true);
+      setIsLoading(true); // Ensure loading is true at the start of a fetch attempt
       const fetchedProduct = await getProductById(productId);
       if (fetchedProduct) {
         setProduct(fetchedProduct);
 
-        // Fetch/filter related products
         const allProducts = mockProducts;
         let filteredRelated = allProducts
           .filter(p => p.category === fetchedProduct.category && p.id !== fetchedProduct.id)
-          .slice(0, 3); // Take up to 3 from the same category
+          .slice(0, 3);
 
         if (filteredRelated.length < 3) {
           const otherProducts = allProducts
             .filter(p => p.category !== fetchedProduct.category && p.id !== fetchedProduct.id);
           const needed = 3 - filteredRelated.length;
-          // Shuffle otherProducts for more variety if desired, then slice
-          // For simplicity, just take the first 'needed' items.
           const shuffledOthers = [...otherProducts].sort(() => 0.5 - Math.random());
           filteredRelated = [...filteredRelated, ...shuffledOthers.slice(0, needed)];
         }
-        setRelatedProducts(filteredRelated.slice(0,3)); // Ensure max 3 related products
+        setRelatedProducts(filteredRelated.slice(0,3));
+      } else {
+        setProduct(null); // Explicitly set product to null if not found
       }
-      setIsLoading(false);
+      setIsLoading(false); // Set loading to false after the fetch attempt completes
     }
 
     if (routeParams && typeof routeParams.id === 'string') {
       fetchProductData(routeParams.id);
-    } else {
-      setIsLoading(false);
     }
+    // If routeParams.id is not a string (e.g., routeParams is {} initially),
+    // fetchProductData is not called. isLoading remains true.
+    // When routeParams.id becomes a string, this effect re-runs, and fetchProductData is called.
+    // If routeParams.id never becomes a string (e.g. if routing/param setup is incorrect for this page),
+    // isLoading would remain true, and the loading spinner would persist.
+    // This scenario implies a routing issue rather than a data fetching issue for this specific page.
   }, [routeParams?.id]);
+
 
   if (isLoading) {
     return (
@@ -233,23 +234,29 @@ export default function ProductDetailPage() {
               />
             )}
 
-            <ProductInfoSection
-              title="How to Use"
-              content={product.howToUse}
-              IconComponent={Settings}
-            />
+            {product.howToUse && (
+              <ProductInfoSection
+                title="How to Use"
+                content={product.howToUse}
+                IconComponent={Settings}
+              />
+            )}
             
-            <ProductInfoSection
-              title="Ingredients / Composition"
-              content={product.ingredients}
-              IconComponent={Leaf}
-            />
+            {product.ingredients && (
+              <ProductInfoSection
+                title="Ingredients / Composition"
+                content={product.ingredients}
+                IconComponent={Leaf}
+              />
+            )}
 
-            <ProductInfoSection
-              title="Safety Information"
-              content={product.safetyInfo}
-              IconComponent={ShieldAlert}
-            />
+            {product.safetyInfo && (
+               <ProductInfoSection
+                title="Safety Information"
+                content={product.safetyInfo}
+                IconComponent={ShieldAlert}
+              />
+            )}
 
             <Separator />
 
@@ -286,3 +293,4 @@ export default function ProductDetailPage() {
     </div>
   );
 }
+
