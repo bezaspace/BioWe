@@ -1,3 +1,4 @@
+
 import type { Metadata } from 'next';
 import { Inter as FontSans } from 'next/font/google';
 import './globals.css';
@@ -12,7 +13,7 @@ const fontSans = FontSans({
 
 export const metadata: Metadata = {
   title: 'BioBloom Shop',
-  description: 'Your one-stop shop for premium gardening and fertilizer products.',
+  description: 'Your one-stop shop for premium gardening and fertilizer products. Nurture your green oasis with BioBloom.',
 };
 
 export default function RootLayout({
