@@ -193,7 +193,7 @@ export default function ProductDetailPage() { // Removed params from props
         </div>
         
         <CardContent className="p-6 sm:p-8 border-t">
-          <Accordion type="multiple" collapsible className="w-full space-y-4">
+          <Accordion type="multiple" className="w-full space-y-4">
             {product.features && product.features.length > 0 && (
               <AccordionItem value="features">
                 <AccordionTrigger className="text-lg font-semibold">
