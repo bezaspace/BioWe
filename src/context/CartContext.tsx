@@ -1,3 +1,4 @@
+
 "use client";
 
 import type { Product, CartItem } from '@/types';
@@ -31,15 +32,17 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
   useEffect(() => {
-    const storedCart = localStorage.getItem('bioBloomCart');
+    const storedCart = localStorage.getItem('bioWeCart'); // Updated key
     if (storedCart) {
       setCartItems(JSON.parse(storedCart));
     }
   }, []);
 
   useEffect(() => {
-    if (cartItems.length > 0 || localStorage.getItem('bioBloomCart')) {
-      localStorage.setItem('bioBloomCart', JSON.stringify(cartItems));
+    if (cartItems.length > 0 || localStorage.getItem('bioWeCart')) { // Updated key
+      localStorage.setItem('bioWeCart', JSON.stringify(cartItems)); // Updated key
+    } else if (cartItems.length === 0 && localStorage.getItem('bioWeCart')) { // Clear if cart becomes empty
+      localStorage.removeItem('bioWeCart');
     }
   }, [cartItems]);
 

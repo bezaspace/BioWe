@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from 'next/link';
@@ -24,7 +25,7 @@ export function Navbar() {
         <div className="flex items-center justify-between h-20">
           <Link href="/" className="flex items-center space-x-2">
             <Leaf className="h-8 w-8 text-[#228B22]" />
-            <span className="text-2xl font-bold text-[#228B22]">BioBloom Shop</span>
+            <span className="text-2xl font-bold text-[#228B22]">BioWe</span>
           </Link>
           
           <div className="hidden md:flex items-center space-x-6">

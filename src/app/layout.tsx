@@ -12,8 +12,8 @@ const fontSans = FontSans({
 });
 
 export const metadata: Metadata = {
-  title: 'BioBloom Shop',
-  description: 'Your one-stop shop for premium gardening and fertilizer products. Nurture your green oasis with BioBloom.',
+  title: 'BioWe',
+  description: 'Your one-stop shop for premium gardening and fertilizer products. Nurture your green oasis with BioWe.',
 };
 
 export default function RootLayout({

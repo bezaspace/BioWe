@@ -23,10 +23,10 @@ function HeroSection() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
         <Leaf className="mx-auto h-16 w-16 text-secondary mb-6" />
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight mb-6">
-          Welcome to <span className="text-secondary">BioBloom Shop</span>
+          Welcome to <span className="text-secondary">BioWe</span>
         </h1>
         <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-10">
-          Nurturing your green oasis with premium, eco-friendly gardening supplies. Grow healthier, happier plants with BioBloom.
+          Nurturing your green oasis with premium, eco-friendly gardening supplies. Grow healthier, happier plants with BioWe.
         </p>
         <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
           <Button size="lg" asChild className="shadow-md hover:shadow-lg transition-shadow">
@@ -85,7 +85,7 @@ function WhyChooseUsSection() {
   return (
     <section className="mb-16 py-12 bg-muted rounded-xl shadow-md">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-bold tracking-tight text-center text-secondary mb-12">Why BioBloom?</h2>
+        <h2 className="text-3xl font-bold tracking-tight text-center text-secondary mb-12">Why BioWe?</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {features.map((feature, index) => (
             <Card key={index} className="text-center shadow-lg hover:shadow-xl transition-shadow">
