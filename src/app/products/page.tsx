@@ -4,9 +4,29 @@ import { mockProducts } from '@/lib/mock-data';
 import type { Product } from '@/types';
 import { PackageSearch } from 'lucide-react';
 
-async function getAllProducts(): Promise<Product[]> {
-  // In a real app, you'd fetch this from a database or API
-  return Promise.resolve(mockProducts);
+interface ProductsPageProps {
+  searchParams: { q?: string };
+}
+
+async function getFilteredProducts(search?: string): Promise<Product[]> {
+  // In a real app, you'd fetch this from a database or API with search params
+  if (!search) {
+    return mockProducts;
+  }
+
+  const searchLower = search.toLowerCase();
+  return mockProducts.filter(product => {
+    const searchableText = [
+      product.name,
+      product.description,
+      product.category,
+      product.dataAiHint,
+      ...(product.features || []),
+      ...(Array.isArray(product.ingredients) ? product.ingredients : [])
+    ].join(' ').toLowerCase();
+    
+    return searchableText.includes(searchLower);
+  });
 }
 
 export const metadata = {
@@ -14,8 +34,8 @@ export const metadata = {
   description: 'Explore the full range of BioWe gardening and fertilizer products.',
 };
 
-export default async function ProductsPage() {
-  const products = await getAllProducts();
+export default async function ProductsPage({ searchParams }: ProductsPageProps) {
+  const products = await getFilteredProducts(searchParams.q);
 
   return (
     <div className="space-y-12">

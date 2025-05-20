@@ -2,8 +2,10 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState } from 'react';
-import { ShoppingBag, Menu } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { ShoppingBag, Menu, Search as SearchIcon } from 'lucide-react';
+import { SearchInput } from '@/components/shared/SearchInput';
+import { useSearch } from '@/lib/search';
 import { useCart } from '@/context/CartContext';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
@@ -21,6 +23,17 @@ export function Navbar() {
   const pathname = usePathname();
   const cartItemCount = getCartItemCount();
   const [isOpen, setIsOpen] = useState(false);
+  const { search, setSearch } = useSearch();
+  const [searchQuery, setSearchQuery] = useState(search);
+
+  useEffect(() => {
+    setSearchQuery(search);
+  }, [search]);
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+    setSearch(query);
+  };
 
   const navLinks = [
     { href: '/', label: 'Home' },
@@ -61,8 +74,14 @@ export function Navbar() {
             />
           </Link>
           
-          {/* Desktop Navigation */}
+          {/* Desktop Search and Navigation */}
           <div className="hidden md:flex items-center space-x-6">
+            <SearchInput
+              variant="navbar"
+              value={searchQuery}
+              onChange={handleSearch}
+              placeholder="Search products..."
+            />
             {navLinks.map((link) => (
               <Link
                 key={link.href}
@@ -103,8 +122,17 @@ export function Navbar() {
                   <SheetHeader>
                     <SheetTitle>Navigation Menu</SheetTitle>
                   </SheetHeader>
-                  <div className="mt-8 flex flex-col space-y-4">
-                    {navLinks.map((link) => (
+                  <div className="space-y-6">
+                    <div className="px-4">
+                      <SearchInput
+                        value={searchQuery}
+              onChange={handleSearch}
+                        placeholder="Search products..."
+                        autoFocus
+                      />
+                    </div>
+                    <div className="flex flex-col space-y-4">
+                      {navLinks.map((link) => (
                       <Link
                         key={link.href}
                         href={link.href}
@@ -118,7 +146,8 @@ export function Navbar() {
                       >
                         {link.label}
                       </Link>
-                    ))}
+                      ))}
+                    </div>
                   </div>
                 </SheetContent>
               </Sheet>
