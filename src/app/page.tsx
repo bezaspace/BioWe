@@ -4,10 +4,11 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { ProductList } from '@/components/products/ProductList';
-import { mockProducts, mockTestimonials } from '@/lib/mock-data';
-import type { Product, Testimonial } from '@/types';
-import { ChevronRight, Leaf, ShieldCheck, Smile, Truck, MessageSquareQuote } from 'lucide-react';
+import { mockProducts, mockTestimonials, mockBlogPosts } from '@/lib/mock-data';
+import type { Product, Testimonial, BlogPost } from '@/types';
+import { ChevronRight, Leaf, ShieldCheck, Smile, Truck, MessageSquareQuote, Rss } from 'lucide-react';
 import { TestimonialCard } from '@/components/home/TestimonialCard';
+import { BlogPostCard } from '@/components/blog/BlogPostCard'; // Import BlogPostCard
 
 // Simulate fetching data - we'll take just a few for the homepage
 async function getFeaturedProducts(): Promise<Product[]> {
@@ -16,6 +17,10 @@ async function getFeaturedProducts(): Promise<Product[]> {
 
 async function getTestimonials(): Promise<Testimonial[]> {
   return Promise.resolve(mockTestimonials.slice(0, 3)); // Show first 3 testimonials
+}
+
+async function getRecentBlogPosts(): Promise<BlogPost[]> {
+  return Promise.resolve(mockBlogPosts.slice(0, 2)); // Show first 2 blog posts
 }
 
 // Hero Section Component
@@ -136,6 +141,40 @@ function TestimonialsSection({ testimonials }: TestimonialsSectionProps) {
   );
 }
 
+// Blog Snippets Section Component
+interface BlogSnippetsSectionProps {
+  posts: BlogPost[];
+}
+function BlogSnippetsSection({ posts }: BlogSnippetsSectionProps) {
+  if (!posts || posts.length === 0) {
+    return null;
+  }
+  return (
+    <section className="mb-16 py-12 bg-gradient-to-r from-green-50 via-emerald-50 to-teal-50 dark:from-green-900/30 dark:via-emerald-950/30 dark:to-teal-900/30 rounded-xl shadow-md">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col sm:flex-row justify-between items-center mb-8">
+          <div className="flex items-center mb-4 sm:mb-0">
+            <Rss className="h-10 w-10 text-secondary mr-4" />
+            <h2 className="text-3xl font-bold tracking-tight text-secondary">
+              From Our Blog
+            </h2>
+          </div>
+          <Button variant="link" asChild className="text-secondary hover:text-primary">
+            <Link href="/blog">
+              Read More on the Blog <ChevronRight className="ml-1 h-5 w-5" />
+            </Link>
+          </Button>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {posts.map((post) => (
+            <BlogPostCard key={post.id} post={post} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 
 // Call to Action Section Component
 function CallToActionSection() {
@@ -158,6 +197,7 @@ function CallToActionSection() {
 export default async function HomePage() {
   const featuredProducts = await getFeaturedProducts();
   const testimonials = await getTestimonials();
+  const recentBlogPosts = await getRecentBlogPosts(); // Fetch recent blog posts
 
   return (
     <div className="space-y-12">
@@ -165,6 +205,7 @@ export default async function HomePage() {
       <FeaturedProductsSection products={featuredProducts} />
       <WhyChooseUsSection />
       <TestimonialsSection testimonials={testimonials} />
+      <BlogSnippetsSection posts={recentBlogPosts} /> {/* Add BlogSnippetsSection */}
       <CallToActionSection />
     </div>
   );
