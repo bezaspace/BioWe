@@ -14,12 +14,27 @@ export function Navbar() {
   const cartItemCount = getCartItemCount();
 
   const navLinks = [
-    { href: '/', label: 'Home' }, // Added Home link
+    { href: '/', label: 'Home' },
     { href: '/products', label: 'Products' },
     { href: '/blog', label: 'Blog' },
-    // { href: '/cart', label: 'Cart' }, // Cart is handled by the icon
     { href: '/contact', label: 'Contact Us' },
   ];
+
+  const getIsActive = (currentPathname: string, linkHref: string): boolean => {
+    if (linkHref === '/') {
+      return currentPathname === '/';
+    }
+    // For other links like /products, /blog
+    // Check for exact match or if it's a parent route of the current path
+    if (currentPathname === linkHref) {
+      return true;
+    }
+    // Check for child routes, e.g. /products/item1 for link /products or /blog/post-slug for link /blog
+    if (currentPathname.startsWith(`${linkHref}/`)) {
+      return true;
+    }
+    return false;
+  };
 
   return (
     <header className="bg-background shadow-md sticky top-0 z-50">
@@ -37,11 +52,7 @@ export function Navbar() {
                 href={link.href}
                 className={cn(
                   "text-lg hover:text-primary transition-colors",
-                  // Updated active link logic
-                  (pathname === link.href ||
-                   (link.href === '/products' && pathname.startsWith('/products')) ||
-                   (link.href === '/blog' && pathname.startsWith('/blog') && link.href !== '/') || // Ensure home is only active on exact match
-                   (link.href === '/' && pathname === '/'))
+                  getIsActive(pathname, link.href)
                     ? "text-primary font-semibold" 
                     : "text-foreground"
                 )}
