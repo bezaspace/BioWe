@@ -6,7 +6,7 @@ export const mockProducts: Product[] = [
   {
     id: 'agri-1',
     name: 'De-Compose',
-    description: 'An advanced bio-formulation to accelerate the decomposition of organic farm waste, turning it into nutrient-rich compost quickly.',
+    description: 'An advanced bio-formulation to accelerate the decomposition of organic farm waste, turning it into nutrient-rich compost quickly. Ideal for breaking down crop residues, manure, and other organic materials, enriching your soil naturally.',
     price: 25.99,
     imageSrc: 'https://placehold.co/600x400.png',
     imageAlt: 'Container of De-Compose',
@@ -14,6 +14,22 @@ export const mockProducts: Product[] = [
     dataAiHint: 'compost accelerator',
     rating: 4.5,
     reviewCount: 120,
+    availability: 'In Stock',
+    features: [
+      'Rapidly breaks down organic farm waste.',
+      'Enriches soil with vital nutrients.',
+      'Reduces waste volume significantly.',
+      'Easy to apply formulation.',
+      'Eco-friendly and sustainable solution.'
+    ],
+    howToUse: [
+      'Prepare a 1:100 solution (1 part De-Compose to 100 parts water).',
+      'Evenly spray the solution over the organic waste pile.',
+      'Turn the pile weekly for optimal aeration and decomposition.',
+      'Compost is typically ready in 4-6 weeks, depending on conditions.'
+    ],
+    ingredients: ['Consortium of cellulolytic and lignolytic microorganisms', 'Stabilizers', 'Carrier materials'],
+    safetyInfo: 'Store in a cool, dry place away from direct sunlight. Keep out of reach of children. Wear gloves during application if sensitive skin.'
   },
   {
     id: 'agri-2',
@@ -26,6 +42,15 @@ export const mockProducts: Product[] = [
     dataAiHint: 'fertilizer bag',
     rating: 4.2,
     reviewCount: 95,
+    availability: 'In Stock',
+    features: [
+        'Boosts soil microbial activity.',
+        'Improves nutrient availability to plants.',
+        'Enhances root development.',
+        'Suitable for a wide range of crops.'
+    ],
+    howToUse: 'Mix with soil during planting or top-dress around existing plants. Follow package instructions for specific crop application rates.',
+    ingredients: ['Nitrogen-fixing bacteria (e.g., Azotobacter, Rhizobium)', 'Phosphate-solubilizing bacteria', 'Potash-mobilizing bacteria', 'Organic carrier material'],
   },
   {
     id: 'agri-3',
@@ -38,6 +63,16 @@ export const mockProducts: Product[] = [
     dataAiHint: 'fungicide bottle',
     rating: 4.0,
     reviewCount: 78,
+    availability: 'In Stock',
+    features: [
+        'Effective against common fungal pathogens.',
+        'Safe for beneficial insects and pollinators.',
+        'No chemical residues.',
+        'Strengthens plant defense mechanisms.'
+    ],
+    howToUse: 'Dilute as per instructions and apply as a foliar spray or soil drench. Repeat applications as needed for disease prevention or control.',
+    ingredients: ['Bacillus subtilis strains', 'Trichoderma species', 'Natural plant extracts with fungicidal properties'],
+    safetyInfo: 'Avoid inhalation of spray mist. Wash hands after use.'
   },
   {
     id: 'agri-4',
@@ -50,6 +85,10 @@ export const mockProducts: Product[] = [
     dataAiHint: 'pesticide spray',
     rating: 3.9,
     reviewCount: 60,
+    availability: 'Out of Stock',
+    features: ['Broad-spectrum pest control.', 'Non-toxic to humans and pets when used as directed.', 'Biodegradable formulation.'],
+    howToUse: 'Apply at first sign of pest infestation. Ensure thorough coverage of plant surfaces. Refer to label for specific pest instructions.',
+    ingredients: ['Neem oil extract', 'Beauveria bassiana', 'Pyrethrins (from chrysanthemum flowers)'],
   },
   {
     id: 'agri-5',
@@ -62,6 +101,10 @@ export const mockProducts: Product[] = [
     dataAiHint: 'mycorrhizal inoculant',
     rating: 4.8,
     reviewCount: 150,
+    availability: 'In Stock',
+    features: ['Increases root surface area.', 'Improves drought tolerance.', 'Enhances plant establishment.'],
+    howToUse: 'Apply directly to roots during transplanting or mix into planting soil.',
+    ingredients: ['Endomycorrhizal fungi spores', 'Ectomycorrhizal fungi spores', 'Bio-stimulants', 'Carrier material'],
   },
   {
     id: 'agri-6',
@@ -74,6 +117,10 @@ export const mockProducts: Product[] = [
     dataAiHint: 'seaweed extract',
     rating: 4.6,
     reviewCount: 110,
+    availability: 'In Stock',
+    features: ['Rich in micronutrients and plant hormones.', 'Improves plant vigor and stress recovery.', 'Enhances fruit set and quality.'],
+    howToUse: 'Dilute with water and apply as a foliar spray or soil drench. Suitable for all stages of plant growth.',
+    ingredients: ['Concentrated Ascophyllum nodosum seaweed extract'],
   },
   {
     id: 'agri-7',
@@ -86,6 +133,10 @@ export const mockProducts: Product[] = [
     dataAiHint: 'organic fertilizer',
     rating: 4.3,
     reviewCount: 88,
+    availability: 'Pre-Order',
+    features: ['Slow-release nutrients.', 'Improves soil structure.', 'Derived from natural sources.'],
+    howToUse: 'Incorporate into soil before planting or use as a top dressing for established plants.',
+    ingredients: ['Composted plant matter', 'Aged manure', 'Bone meal', 'Blood meal', 'Rock phosphate'],
   },
   {
     id: 'agri-8',
@@ -98,6 +149,10 @@ export const mockProducts: Product[] = [
     dataAiHint: 'silicon supplement',
     rating: 4.7,
     reviewCount: 92,
+    availability: 'In Stock',
+    features: ['Strengthens plant tissues.', 'Increases resistance to lodging.', 'Improves nutrient uptake efficiency.'],
+    howToUse: 'Add to nutrient solution or apply as a foliar spray according to product guidelines.',
+    ingredients: ['Stabilized silicic acid', 'Micronutrients'],
   },
   {
     id: 'agri-9',
@@ -110,6 +165,10 @@ export const mockProducts: Product[] = [
     dataAiHint: 'palm fertilizer',
     rating: 4.4,
     reviewCount: 70,
+    availability: 'In Stock',
+    features: ['Balanced NPK ratio for palms.', 'Contains essential micronutrients like magnesium and manganese.', 'Promotes deep green frond color.'],
+    howToUse: 'Apply around the base of palm trees, avoiding direct contact with the trunk. Water thoroughly after application.',
+    ingredients: ['Nitrogen, Phosphorus, Potassium sources', 'Magnesium sulfate', 'Manganese sulfate', 'Iron chelates'],
   },
 
   // Gardening Products
@@ -124,6 +183,10 @@ export const mockProducts: Product[] = [
     dataAiHint: 'cocopeat block',
     rating: 4.5,
     reviewCount: 180,
+    availability: 'In Stock',
+    features: ['Sustainable and renewable resource.', 'Neutral pH.', 'Improves soil structure.'],
+    howToUse: 'Soak the cocopeat block in water until it expands. Mix with other soil amendments or use as a standalone growing medium.',
+    ingredients: ['Dehydrated coconut coir pith', 'Slow-release NPK fertilizer'],
   },
   {
     id: 'gard-2',
@@ -136,6 +199,10 @@ export const mockProducts: Product[] = [
     dataAiHint: 'vermiculite bag',
     rating: 4.3,
     reviewCount: 130,
+    availability: 'In Stock',
+    features: ['Lightweight and sterile.', 'Excellent for seed germination.', 'Helps prevent soil compaction.'],
+    howToUse: 'Mix with potting soil or peat moss to improve aeration and water retention. Can also be used as a top layer for seed starting.',
+    ingredients: ['Exfoliated vermiculite mineral'],
   },
   {
     id: 'gard-3',
@@ -148,6 +215,10 @@ export const mockProducts: Product[] = [
     dataAiHint: 'perlite bag',
     rating: 4.2,
     reviewCount: 145,
+    availability: 'In Stock',
+    features: ['Improves drainage significantly.', 'Prevents waterlogging.', 'Encourages strong root systems.'],
+    howToUse: 'Add to potting mixes for plants that require excellent drainage, such as succulents and cacti. Typically 10-30% of the mix.',
+    ingredients: ['Expanded perlite (volcanic glass)'],
   },
   {
     id: 'gard-4',
@@ -160,6 +231,10 @@ export const mockProducts: Product[] = [
     dataAiHint: 'plant supplement',
     rating: 4.7,
     reviewCount: 90,
+    availability: 'In Stock',
+    features: ['Enhances plant structural integrity.', 'Improves resistance to pests and diseases.', 'Boosts overall plant health.'],
+    howToUse: 'Mix with water according to label instructions and apply as a soil drench or foliar spray.',
+    ingredients: ['Potassium silicate', 'Trace elements'],
   },
   {
     id: 'gard-5',
@@ -172,6 +247,10 @@ export const mockProducts: Product[] = [
     dataAiHint: 'soil amendment',
     rating: 4.6,
     reviewCount: 210,
+    availability: 'In Stock',
+    features: ['Rich in humus and organic matter.', 'Contains a diverse range of beneficial microorganisms.', 'Improves soil fertility and plant resilience.'],
+    howToUse: 'Incorporate into garden beds before planting or top-dress around existing plants. Can also be used to enrich potting mixes.',
+    ingredients: ['Composted manures', 'Worm castings', 'Kelp meal', 'Fish meal', 'Humic acids'],
   },
   {
     id: 'gard-6',
@@ -184,6 +263,10 @@ export const mockProducts: Product[] = [
     dataAiHint: 'worm castings',
     rating: 4.9,
     reviewCount: 250,
+    availability: 'In Stock',
+    features: ['High in beneficial microbes.', 'Improves soil aeration and water retention.', 'Gentle on plants, will not burn roots.'],
+    howToUse: 'Use as a soil amendment, top dressing, or ingredient in potting mixes. Can also be brewed into a compost tea.',
+    ingredients: ['100% Pure Earthworm Castings'],
   },
   {
     id: 'gard-7',
@@ -196,6 +279,10 @@ export const mockProducts: Product[] = [
     dataAiHint: 'seed starters',
     rating: 4.0,
     reviewCount: 100,
+    availability: 'Out of Stock',
+    features: ['Provides optimal moisture and aeration for germination.', 'Easy to transplant seedlings.', 'Reduces transplant shock.'],
+    howToUse: 'Moisten cubes thoroughly before sowing seeds or inserting cuttings. Keep moist until roots develop.',
+    ingredients: ['Compressed peat moss or coco coir', 'Wetting agent'],
   },
   {
     id: 'gard-8',
@@ -208,6 +295,10 @@ export const mockProducts: Product[] = [
     dataAiHint: 'rose fertilizer',
     rating: 4.5,
     reviewCount: 160,
+    availability: 'In Stock',
+    features: ['Formulated for heavy-feeding roses.', 'Encourages strong canes and vibrant flowers.', 'Contains essential nutrients and organic matter.'],
+    howToUse: 'Apply around the base of rose bushes in early spring and after each bloom cycle. Water in well.',
+    ingredients: ['Alfalfa meal', 'Bone meal', 'Blood meal', 'Fish meal', 'Sulfate of potash', 'Compost'],
   },
   {
     id: 'gard-9',
@@ -220,6 +311,10 @@ export const mockProducts: Product[] = [
     dataAiHint: 'potting soil',
     rating: 4.4,
     reviewCount: 190,
+    availability: 'In Stock',
+    features: ['Balanced for general garden use.', 'Good drainage and aeration.', 'Contains starter nutrients.'],
+    howToUse: 'Use directly in containers, raised beds, or to amend existing garden soil.',
+    ingredients: ['Aged forest products', 'Peat moss', 'Compost', 'Perlite or pumice', 'Organic fertilizers'],
   }
 ];
 

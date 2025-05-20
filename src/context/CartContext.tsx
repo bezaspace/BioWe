@@ -32,31 +32,42 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
   useEffect(() => {
-    const storedCart = localStorage.getItem('bioWeCart'); // Updated key
-    if (storedCart) {
-      setCartItems(JSON.parse(storedCart));
+    // This check ensures localStorage is only accessed on the client-side
+    if (typeof window !== 'undefined') {
+      const storedCart = localStorage.getItem('bioWeCart');
+      if (storedCart) {
+        try {
+          setCartItems(JSON.parse(storedCart));
+        } catch (error) {
+          console.error("Failed to parse cart from localStorage", error);
+          localStorage.removeItem('bioWeCart'); // Clear corrupted data
+        }
+      }
     }
   }, []);
 
   useEffect(() => {
-    if (cartItems.length > 0 || localStorage.getItem('bioWeCart')) { // Updated key
-      localStorage.setItem('bioWeCart', JSON.stringify(cartItems)); // Updated key
-    } else if (cartItems.length === 0 && localStorage.getItem('bioWeCart')) { // Clear if cart becomes empty
-      localStorage.removeItem('bioWeCart');
+    if (typeof window !== 'undefined') {
+      if (cartItems.length > 0 ) {
+        localStorage.setItem('bioWeCart', JSON.stringify(cartItems));
+      } else if (cartItems.length === 0 && localStorage.getItem('bioWeCart')) { 
+        // Clear localStorage if cart becomes empty and was previously populated
+        localStorage.removeItem('bioWeCart');
+      }
     }
   }, [cartItems]);
 
-  const addToCart = (product: Product, quantity: number = 1) => {
+  const addToCart = (product: Product, quantityToAdd: number = 1) => {
     setCartItems(prevItems => {
       const existingItem = prevItems.find(item => item.product.id === product.id);
       if (existingItem) {
         return prevItems.map(item =>
           item.product.id === product.id
-            ? { ...item, quantity: item.quantity + quantity }
+            ? { ...item, quantity: item.quantity + quantityToAdd }
             : item
         );
       }
-      return [...prevItems, { product, quantity }];
+      return [...prevItems, { product, quantity: quantityToAdd }];
     });
   };
 

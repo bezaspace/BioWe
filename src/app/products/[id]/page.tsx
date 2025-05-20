@@ -1,29 +1,112 @@
 
+"use client"; // For useState and event handlers
+
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import type { Product } from '@/types';
 import { mockProducts } from '@/lib/mock-data';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
-import { ArrowLeft } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardFooter } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
+import { ArrowLeft, MinusCircle, PlusCircle, CheckCircle, XCircle, Info, BookOpen, ShieldAlert, MessageSquare, ThumbsUp, Package, Send } from 'lucide-react';
 import { ProductPageAddToCartButton } from '@/components/products/ProductPageAddToCartButton';
-import { StarRating } from '@/components/shared/StarRating'; // Updated path
+import { StarRating } from '@/components/shared/StarRating';
+import React, { useState, useEffect } from 'react';
 
 async function getProductById(id: string): Promise<Product | undefined> {
   // In a real app, you'd fetch this from a CMS or database
-  return Promise.resolve(mockProducts.find(p => p.id === id));
+  // Simulating async fetch
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(mockProducts.find(p => p.id === id));
+    }, 0);
+  });
 }
 
-export default async function ProductDetailPage({ params }: { params: { id: string } }) {
-  const product = await getProductById(params.id);
+// Removed generateStaticParams to ensure page is always dynamically rendered
+// and can fetch fresh data if needed, also to avoid issues with mock data length changes.
 
-  if (!product) {
-    notFound();
+// Removed generateMetadata because it needs to be async and use the same data fetching
+// as the page, but we're making the page client-rendered for quantity state.
+// For full SSR/SSG with metadata, state management would need a different approach.
+
+export default function ProductDetailPage({ params }: { params: { id: string } }) {
+  const [product, setProduct] = useState<Product | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [quantity, setQuantity] = useState(1);
+
+  useEffect(() => {
+    async function fetchProduct() {
+      setIsLoading(true);
+      const fetchedProduct = await getProductById(params.id);
+      if (fetchedProduct) {
+        setProduct(fetchedProduct);
+      } else {
+        // Handle not found case, perhaps redirect or show a specific message
+        // For now, relying on notFound() if product is null after fetch
+      }
+      setIsLoading(false);
+    }
+    fetchProduct();
+  }, [params.id]);
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center min-h-[60vh]">
+        <div className="loader ease-linear rounded-full border-4 border-t-4 border-muted h-12 w-12 mb-4 animate-spin border-t-primary"></div>
+        <p className="ml-4 text-lg">Loading product details...</p>
+      </div>
+    );
   }
 
+  if (!product) {
+    notFound(); // Triggers the not-found page
+  }
+
+  const handleQuantityChange = (amount: number) => {
+    setQuantity(prev => {
+      const newQuantity = prev + amount;
+      return newQuantity < 1 ? 1 : newQuantity;
+    });
+  };
+
+  const availabilityColor = product.availability === 'In Stock' ? 'text-green-600' : product.availability === 'Out of Stock' ? 'text-red-600' : 'text-yellow-600';
+  const AvailabilityIcon = product.availability === 'In Stock' ? CheckCircle : product.availability === 'Out of Stock' ? XCircle : Info;
+
+  const renderInfoSection = (title: string, content: string[] | string | undefined, IconComponent: React.ElementType) => {
+    if (!content || (Array.isArray(content) && content.length === 0)) {
+      return null;
+    }
+    return (
+      <AccordionItem value={title.toLowerCase().replace(/\s+/g, '-')}>
+        <AccordionTrigger className="text-lg font-semibold">
+          <div className="flex items-center">
+            <IconComponent className="mr-2 h-5 w-5 text-secondary" />
+            {title}
+          </div>
+        </AccordionTrigger>
+        <AccordionContent className="text-base text-muted-foreground space-y-2 pl-2">
+          {Array.isArray(content) ? (
+            <ul className="list-disc list-outside ml-5 space-y-1">
+              {content.map((item, index) => <li key={index}>{item}</li>)}
+            </ul>
+          ) : (
+            <p>{content}</p>
+          )}
+        </AccordionContent>
+      </AccordionItem>
+    );
+  };
+
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="max-w-5xl mx-auto">
       <div className="mb-8">
         <Button variant="outline" asChild>
           <Link href="/products">
@@ -34,70 +117,149 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
       </div>
 
       <Card className="overflow-hidden shadow-lg">
-        <div className="grid md:grid-cols-2">
-          <CardHeader className="p-0">
-            <div className="aspect-square relative w-full">
+        <div className="grid md:grid-cols-2 gap-0 md:gap-8">
+          <CardHeader className="p-0 md:p-4">
+            <div className="aspect-square relative w-full rounded-lg overflow-hidden">
               <Image
                 src={product.imageSrc}
                 alt={product.imageAlt}
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover"
-                priority // Prioritize loading the main product image
+                priority
                 data-ai-hint={product.dataAiHint}
               />
             </div>
           </CardHeader>
           
-          <div className="flex flex-col">
-            <CardContent className="p-6 sm:p-8 flex-grow">
-              <CardTitle className="text-3xl sm:text-4xl font-bold tracking-tight text-secondary mb-2">
+          <div className="flex flex-col p-6 md:p-4">
+            <div className="flex-grow">
+              <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-secondary mb-2">
                 {product.name}
-              </CardTitle>
+              </h1>
+
               {product.rating !== undefined && product.reviewCount !== undefined && (
-                <div className="mb-3">
+                <div className="mb-3 flex items-center">
                   <StarRating rating={product.rating} reviewCount={product.reviewCount} starClassName="h-5 w-5" />
                 </div>
               )}
-              <p className="text-2xl font-semibold text-primary mb-4">
+
+              <p className="text-3xl font-semibold text-primary mb-4">
                 ${product.price.toFixed(2)}
               </p>
-              <CardDescription className="text-base text-muted-foreground space-y-4">
-                {product.description.split('\\n\\n').map((paragraph, index) => (
-                  <p key={index}>{paragraph}</p>
-                ))}
-              </CardDescription>
-            </CardContent>
 
-            <CardFooter className="p-6 sm:p-8 pt-0">
-              <ProductPageAddToCartButton product={product} />
-            </CardFooter>
+              {product.availability && (
+                <div className={`flex items-center text-md font-medium mb-4 ${availabilityColor}`}>
+                  <AvailabilityIcon className="mr-2 h-5 w-5" />
+                  {product.availability}
+                </div>
+              )}
+              
+              <p className="text-base text-foreground mb-6 space-y-3">
+                {product.description.split('\\n\\n').map((paragraph, index) => (
+                  <span key={index} className="block">{paragraph}</span>
+                ))}
+              </p>
+            </div>
+
+            <div className="mt-auto">
+              <div className="flex items-center space-x-3 mb-6">
+                <label htmlFor="quantity" className="font-medium">Quantity:</label>
+                <div className="flex items-center border rounded-md">
+                  <Button variant="ghost" size="icon" onClick={() => handleQuantityChange(-1)} disabled={quantity <= 1} className="h-10 w-10 rounded-r-none">
+                    <MinusCircle className="h-5 w-5" />
+                  </Button>
+                  <Input
+                    type="number"
+                    id="quantity"
+                    value={quantity}
+                    onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value, 10) || 1))}
+                    className="w-16 text-center h-10 border-y-0 border-x rounded-none focus-visible:ring-0"
+                    min="1"
+                  />
+                  <Button variant="ghost" size="icon" onClick={() => handleQuantityChange(1)} className="h-10 w-10 rounded-l-none">
+                    <PlusCircle className="h-5 w-5" />
+                  </Button>
+                </div>
+              </div>
+
+              <ProductPageAddToCartButton product={product} quantity={quantity} disabled={product.availability === 'Out of Stock'} />
+               {product.availability === 'Out of Stock' && (
+                <p className="text-sm text-destructive mt-2 text-center">This product is currently unavailable.</p>
+              )}
+            </div>
           </div>
         </div>
-      </Card>
+        
+        <CardContent className="p-6 sm:p-8 border-t">
+          <Accordion type="multiple" collapsible className="w-full space-y-4">
+            {product.features && product.features.length > 0 && (
+              <AccordionItem value="features">
+                <AccordionTrigger className="text-lg font-semibold">
+                   <div className="flex items-center">
+                    <ThumbsUp className="mr-2 h-5 w-5 text-secondary" />
+                    Key Features
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent className="text-base text-muted-foreground space-y-1 pl-2">
+                  <ul className="list-disc list-outside ml-5">
+                    {product.features.map((feature, index) => <li key={index}>{feature}</li>)}
+                  </ul>
+                </AccordionContent>
+              </AccordionItem>
+            )}
 
-      {/* You could add related products or reviews sections here in the future */}
+            {renderInfoSection("How to Use", product.howToUse, BookOpen)}
+            {renderInfoSection("Ingredients / Composition", product.ingredients, Info)}
+            {renderInfoSection("Safety Information", product.safetyInfo, ShieldAlert)}
+
+            <AccordionItem value="customer-reviews">
+              <AccordionTrigger className="text-lg font-semibold">
+                <div className="flex items-center">
+                  <MessageSquare className="mr-2 h-5 w-5 text-secondary" />
+                  Customer Reviews
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="text-base text-muted-foreground">
+                {product.rating !== undefined && product.reviewCount !== undefined && product.reviewCount > 0 ? (
+                  <div className="mb-4">
+                    <StarRating rating={product.rating} reviewCount={product.reviewCount} starClassName="h-6 w-6" />
+                  </div>
+                ) : null}
+                <p>Full customer reviews functionality coming soon!</p>
+                {/* Placeholder for actual review list and submission form */}
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="related-products">
+              <AccordionTrigger className="text-lg font-semibold">
+                <div className="flex items-center">
+                  <Package className="mr-2 h-5 w-5 text-secondary" />
+                  Related Products
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="text-base text-muted-foreground">
+                <p>Suggestions for related products coming soon!</p>
+                {/* Placeholder for related products list */}
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="shipping-returns">
+              <AccordionTrigger className="text-lg font-semibold">
+                <div className="flex items-center">
+                  <Send className="mr-2 h-5 w-5 text-secondary" />
+                  Shipping & Return Information
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="text-base text-muted-foreground space-y-2">
+                <p><strong>Shipping:</strong> We typically ship orders within 1-2 business days. Standard shipping takes 3-5 business days. Expedited options available at checkout.</p>
+                <p><strong>Returns:</strong> We offer a 30-day return policy on unopened products. Please contact our customer service for return authorizations.</p>
+              </AccordionContent>
+            </AccordionItem>
+
+          </Accordion>
+        </CardContent>
+      </Card>
     </div>
   );
-}
-
-// Optional: Generate static paths if you have a known, limited number of products
-export async function generateStaticParams() {
-  return mockProducts.map((product) => ({
-    id: product.id,
-  }));
-}
-
-// Optional: Add metadata for each product page
-export async function generateMetadata({ params }: { params: { id: string } }) {
-  const product = await getProductById(params.id);
-  if (!product) {
-    return {
-      title: 'Product Not Found',
-    };
-  }
-  return {
-    title: `${product.name} | BioWe`,
-    description: product.description.substring(0, 160), // Basic excerpt for description
-  };
 }

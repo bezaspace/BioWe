@@ -2,7 +2,7 @@
 export interface Product {
   id: string;
   name: string;
-  description: string;
+  description: string; // Main/overview description
   price: number;
   imageSrc: string;
   imageAlt: string;
@@ -10,6 +10,11 @@ export interface Product {
   dataAiHint: string; // For placeholder image search keywords
   rating?: number; // Optional: average rating 0-5
   reviewCount?: number; // Optional: number of reviews
+  availability?: 'In Stock' | 'Out of Stock' | 'Pre-Order';
+  features?: string[];
+  howToUse?: string[] | string; // Can be an array for steps or a single string
+  ingredients?: string[] | string;
+  safetyInfo?: string;
 }
 
 export interface CartItem {
