@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { toast } from '@/hooks/use-toast';
 import { ShoppingCart } from 'lucide-react';
+import { StarRating } from '@/components/shared/StarRating'; // Updated path
 
 interface ProductCardProps {
   product: Product;
@@ -46,6 +47,11 @@ export function ProductCard({ product }: ProductCardProps) {
           </Link>
         </CardTitle>
         <p className="text-lg font-semibold text-primary mb-2">${product.price.toFixed(2)}</p>
+        {product.rating !== undefined && product.reviewCount !== undefined && (
+          <div className="mb-2">
+            <StarRating rating={product.rating} reviewCount={product.reviewCount} />
+          </div>
+        )}
         <CardDescription className="text-sm text-muted-foreground line-clamp-3">{product.description}</CardDescription>
       </CardContent>
       <CardFooter className="p-4 pt-0">

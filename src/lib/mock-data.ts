@@ -11,7 +11,9 @@ export const mockProducts: Product[] = [
     imageSrc: 'https://placehold.co/600x400.png',
     imageAlt: 'Container of De-Compose',
     category: 'Agriculture',
-    dataAiHint: 'compost accelerator'
+    dataAiHint: 'compost accelerator',
+    rating: 4.5,
+    reviewCount: 120,
   },
   {
     id: 'agri-2',
@@ -21,7 +23,9 @@ export const mockProducts: Product[] = [
     imageSrc: 'https://placehold.co/600x400.png',
     imageAlt: 'Bag of Bio fertilizer',
     category: 'Agriculture',
-    dataAiHint: 'fertilizer bag'
+    dataAiHint: 'fertilizer bag',
+    rating: 4.2,
+    reviewCount: 95,
   },
   {
     id: 'agri-3',
@@ -31,7 +35,9 @@ export const mockProducts: Product[] = [
     imageSrc: 'https://placehold.co/600x400.png',
     imageAlt: 'Bottle of Bio Fungicide',
     category: 'Agriculture',
-    dataAiHint: 'fungicide bottle'
+    dataAiHint: 'fungicide bottle',
+    rating: 4.0,
+    reviewCount: 78,
   },
   {
     id: 'agri-4',
@@ -41,7 +47,9 @@ export const mockProducts: Product[] = [
     imageSrc: 'https://placehold.co/600x400.png',
     imageAlt: 'Bottle of Bio Pesticide',
     category: 'Agriculture',
-    dataAiHint: 'pesticide spray'
+    dataAiHint: 'pesticide spray',
+    rating: 3.9,
+    reviewCount: 60,
   },
   {
     id: 'agri-5',
@@ -51,7 +59,9 @@ export const mockProducts: Product[] = [
     imageSrc: 'https://placehold.co/600x400.png',
     imageAlt: 'Container of MYCO POWER',
     category: 'Agriculture',
-    dataAiHint: 'mycorrhizal inoculant'
+    dataAiHint: 'mycorrhizal inoculant',
+    rating: 4.8,
+    reviewCount: 150,
   },
   {
     id: 'agri-6',
@@ -61,7 +71,9 @@ export const mockProducts: Product[] = [
     imageSrc: 'https://placehold.co/600x400.png',
     imageAlt: 'Bottle of Sea Wonder Seaweed Extract',
     category: 'Agriculture',
-    dataAiHint: 'seaweed extract'
+    dataAiHint: 'seaweed extract',
+    rating: 4.6,
+    reviewCount: 110,
   },
   {
     id: 'agri-7',
@@ -71,7 +83,9 @@ export const mockProducts: Product[] = [
     imageSrc: 'https://placehold.co/600x400.png',
     imageAlt: 'Bag of Nature Choice plant food',
     category: 'Agriculture',
-    dataAiHint: 'organic fertilizer'
+    dataAiHint: 'organic fertilizer',
+    rating: 4.3,
+    reviewCount: 88,
   },
   {
     id: 'agri-8',
@@ -81,7 +95,9 @@ export const mockProducts: Product[] = [
     imageSrc: 'https://placehold.co/600x400.png',
     imageAlt: 'Container of SILICIC supplement',
     category: 'Agriculture',
-    dataAiHint: 'silicon supplement'
+    dataAiHint: 'silicon supplement',
+    rating: 4.7,
+    reviewCount: 92,
   },
   {
     id: 'agri-9',
@@ -91,7 +107,9 @@ export const mockProducts: Product[] = [
     imageSrc: 'https://placehold.co/600x400.png',
     imageAlt: 'Bag of Palm Nutrients',
     category: 'Agriculture',
-    dataAiHint: 'palm fertilizer'
+    dataAiHint: 'palm fertilizer',
+    rating: 4.4,
+    reviewCount: 70,
   },
 
   // Gardening Products
@@ -103,7 +121,9 @@ export const mockProducts: Product[] = [
     imageSrc: 'https://placehold.co/600x400.png',
     imageAlt: 'Block of Enriched Cocopeat',
     category: 'Gardening Products',
-    dataAiHint: 'cocopeat block'
+    dataAiHint: 'cocopeat block',
+    rating: 4.5,
+    reviewCount: 180,
   },
   {
     id: 'gard-2',
@@ -113,7 +133,9 @@ export const mockProducts: Product[] = [
     imageSrc: 'https://placehold.co/600x400.png',
     imageAlt: 'Bag of Vermiculite',
     category: 'Gardening Products',
-    dataAiHint: 'vermiculite bag'
+    dataAiHint: 'vermiculite bag',
+    rating: 4.3,
+    reviewCount: 130,
   },
   {
     id: 'gard-3',
@@ -123,7 +145,9 @@ export const mockProducts: Product[] = [
     imageSrc: 'https://placehold.co/600x400.png',
     imageAlt: 'Bag of Perlite',
     category: 'Gardening Products',
-    dataAiHint: 'perlite bag'
+    dataAiHint: 'perlite bag',
+    rating: 4.2,
+    reviewCount: 145,
   },
   {
     id: 'gard-4',
@@ -133,7 +157,9 @@ export const mockProducts: Product[] = [
     imageSrc: 'https://placehold.co/600x400.png',
     imageAlt: 'Bottle of Phytosil',
     category: 'Gardening Products',
-    dataAiHint: 'plant supplement'
+    dataAiHint: 'plant supplement',
+    rating: 4.7,
+    reviewCount: 90,
   },
   {
     id: 'gard-5',
@@ -143,7 +169,9 @@ export const mockProducts: Product[] = [
     imageSrc: 'https://placehold.co/600x400.png',
     imageAlt: 'Bag of Organic health booster',
     category: 'Gardening Products',
-    dataAiHint: 'soil amendment'
+    dataAiHint: 'soil amendment',
+    rating: 4.6,
+    reviewCount: 210,
   },
   {
     id: 'gard-6',
@@ -153,7 +181,9 @@ export const mockProducts: Product[] = [
     imageSrc: 'https://placehold.co/600x400.png',
     imageAlt: 'Bag of Vermicompost',
     category: 'Gardening Products',
-    dataAiHint: 'worm castings'
+    dataAiHint: 'worm castings',
+    rating: 4.9,
+    reviewCount: 250,
   },
   {
     id: 'gard-7',
@@ -163,7 +193,9 @@ export const mockProducts: Product[] = [
     imageSrc: 'https://placehold.co/600x400.png',
     imageAlt: 'Pack of Grow cubes',
     category: 'Gardening Products',
-    dataAiHint: 'seed starters'
+    dataAiHint: 'seed starters',
+    rating: 4.0,
+    reviewCount: 100,
   },
   {
     id: 'gard-8',
@@ -173,7 +205,9 @@ export const mockProducts: Product[] = [
     imageSrc: 'https://placehold.co/600x400.png',
     imageAlt: 'Bag of Rose mixture',
     category: 'Gardening Products',
-    dataAiHint: 'rose fertilizer'
+    dataAiHint: 'rose fertilizer',
+    rating: 4.5,
+    reviewCount: 160,
   },
   {
     id: 'gard-9',
@@ -183,7 +217,9 @@ export const mockProducts: Product[] = [
     imageSrc: 'https://placehold.co/600x400.png',
     imageAlt: 'Bag of Garden Mix soil',
     category: 'Gardening Products',
-    dataAiHint: 'potting soil'
+    dataAiHint: 'potting soil',
+    rating: 4.4,
+    reviewCount: 190,
   }
 ];
 

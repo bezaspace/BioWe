@@ -6,8 +6,10 @@ export interface Product {
   price: number;
   imageSrc: string;
   imageAlt: string;
-  category: string; 
+  category: string;
   dataAiHint: string; // For placeholder image search keywords
+  rating?: number; // Optional: average rating 0-5
+  reviewCount?: number; // Optional: number of reviews
 }
 
 export interface CartItem {

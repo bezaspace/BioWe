@@ -6,8 +6,9 @@ import { mockProducts } from '@/lib/mock-data';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
-import { ArrowLeft, ShoppingCart } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { ProductPageAddToCartButton } from '@/components/products/ProductPageAddToCartButton';
+import { StarRating } from '@/components/shared/StarRating'; // Updated path
 
 async function getProductById(id: string): Promise<Product | undefined> {
   // In a real app, you'd fetch this from a CMS or database
@@ -50,9 +51,14 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
           
           <div className="flex flex-col">
             <CardContent className="p-6 sm:p-8 flex-grow">
-              <CardTitle className="text-3xl sm:text-4xl font-bold tracking-tight text-secondary mb-4">
+              <CardTitle className="text-3xl sm:text-4xl font-bold tracking-tight text-secondary mb-2">
                 {product.name}
               </CardTitle>
+              {product.rating !== undefined && product.reviewCount !== undefined && (
+                <div className="mb-3">
+                  <StarRating rating={product.rating} reviewCount={product.reviewCount} starClassName="h-5 w-5" />
+                </div>
+              )}
               <p className="text-2xl font-semibold text-primary mb-4">
                 ${product.price.toFixed(2)}
               </p>
