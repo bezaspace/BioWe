@@ -1,9 +1,11 @@
 
-import Image from 'next/image';
+"use client";
+
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Leaf, Target, Users, Heart, CheckCircle, Sprout, MessageCircle } from 'lucide-react';
+import { Leaf, Target, CheckCircle, Sprout, MessageCircle, Heart } from 'lucide-react';
 import Link from 'next/link';
+import { PexelsImage } from '@/components/shared/PexelsImage';
 
 export const metadata = {
   title: 'About BioWe | Our Story, Mission, and Values',
@@ -39,12 +41,15 @@ export default function AboutUsPage() {
       {/* Hero Section */}
       <section className="relative py-20 md:py-32 rounded-xl shadow-lg overflow-hidden bg-gradient-to-br from-green-100 via-emerald-50 to-teal-100 dark:from-green-900 dark:via-emerald-950 dark:to-teal-900">
         <div className="absolute inset-0 opacity-20">
-          <Image
-            src="https://placehold.co/1200x600.png"
-            alt="Lush green foliage background"
+          <PexelsImage
+            initialSrc="https://placehold.co/1200x600.png"
+            altText="Lush green foliage background"
+            aiHint="lush foliage"
+            orientation="landscape"
             fill
             className="object-cover"
-            data-ai-hint="lush foliage"
+            priority
+            sizes="(max-width: 768px) 100vw, 1200px"
           />
         </div>
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
@@ -77,12 +82,14 @@ export default function AboutUsPage() {
               </div>
             </div>
             <div className="aspect-video md:aspect-auto md:h-full relative order-first md:order-last">
-              <Image
-                src="https://placehold.co/600x450.png"
-                alt="Founders collaborating in a natural setting"
+              <PexelsImage
+                initialSrc="https://placehold.co/600x450.png"
+                altText="Founders collaborating in a natural setting"
+                aiHint="people nature collaboration"
+                orientation="landscape"
                 fill
                 className="object-cover"
-                data-ai-hint="people nature collaboration"
+                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 600px"
               />
             </div>
           </div>
@@ -121,12 +128,14 @@ export default function AboutUsPage() {
         <Card className="shadow-xl overflow-hidden bg-secondary text-secondary-foreground">
           <div className="grid md:grid-cols-2 items-center">
              <div className="aspect-video md:aspect-auto md:h-full relative">
-              <Image
-                src="https://placehold.co/600x450.png"
-                alt="Close-up of healthy plant thriving"
+              <PexelsImage
+                initialSrc="https://placehold.co/600x450.png"
+                altText="Close-up of healthy plant thriving"
+                aiHint="healthy plant soil"
+                orientation="landscape"
                 fill
                 className="object-cover"
-                data-ai-hint="healthy plant soil"
+                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 600px"
               />
             </div>
             <div className="p-8 md:p-12">
@@ -149,7 +158,6 @@ export default function AboutUsPage() {
           </div>
         </Card>
       </section>
-
 
       {/* Call to Action Section */}
       <section className="py-16 text-center">

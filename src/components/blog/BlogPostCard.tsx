@@ -1,12 +1,12 @@
 
 "use client";
 
-import Image from 'next/image';
 import Link from 'next/link';
 import type { BlogPost } from '@/types';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { CalendarDays, ArrowRight } from 'lucide-react';
+import { PexelsImage } from '@/components/shared/PexelsImage';
 
 interface BlogPostCardProps {
   post: BlogPost;
@@ -17,13 +17,14 @@ export function BlogPostCard({ post }: BlogPostCardProps) {
     <Card className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 h-full">
       <CardHeader className="p-0">
         <Link href={`/blog/${post.slug}`} className="block aspect-[16/9] relative w-full">
-          <Image
-            src={post.imageSrc}
-            alt={post.imageAlt}
+          <PexelsImage
+            initialSrc={post.imageSrc}
+            altText={post.imageAlt}
+            aiHint={post.dataAiHint}
+            orientation="landscape"
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="object-cover"
-            data-ai-hint={post.dataAiHint}
           />
         </Link>
       </CardHeader>
