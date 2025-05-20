@@ -59,23 +59,15 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
           </div>
 
           {/* For rich text content, you might use a Markdown renderer here in a real app */}
-          <div className="prose prose-lg dark:prose-invert max-w-none text-foreground space-y-4">
-            {post.content.split('\\n\\n').map((paragraph, index) => (
-              <p key={index}>{paragraph}</p>
-            ))}
-          </div>
+          <div
+            className="prose prose-lg dark:prose-invert max-w-none text-foreground space-y-4"
+            dangerouslySetInnerHTML={{ __html: post.content }}
+          />
         </CardContent>
       </Card>
     </div>
   );
 }
-
-// Optional: Generate static paths if you have a known, limited number of posts
-// export async function generateStaticParams() {
-//   return mockBlogPosts.map((post) => ({
-//     slug: post.slug,
-//   }));
-// }
 
 // Optional: Add metadata for each blog post
 export async function generateMetadata({ params }: { params: { slug: string } }) {
