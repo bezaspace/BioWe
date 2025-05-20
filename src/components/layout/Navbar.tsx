@@ -14,7 +14,7 @@ export function Navbar() {
   const cartItemCount = getCartItemCount();
 
   const navLinks = [
-    { href: '/', label: 'Products' },
+    { href: '/products', label: 'Products' },
     { href: '/blog', label: 'Blog' },
     { href: '/cart', label: 'Cart' },
     { href: '/contact', label: 'Contact Us' },
@@ -36,7 +36,9 @@ export function Navbar() {
                 href={link.href}
                 className={cn(
                   "text-lg hover:text-primary transition-colors",
-                  (pathname === link.href || (link.href === '/blog' && pathname.startsWith('/blog'))) 
+                  (pathname === link.href || 
+                   (link.href === '/products' && pathname.startsWith('/products')) || // For individual product pages if they exist later
+                   (link.href === '/blog' && pathname.startsWith('/blog'))) 
                     ? "text-primary font-semibold" 
                     : "text-foreground"
                 )}

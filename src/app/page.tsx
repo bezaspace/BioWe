@@ -30,7 +30,7 @@ function HeroSection() {
         </p>
         <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
           <Button size="lg" asChild className="shadow-md hover:shadow-lg transition-shadow">
-            <Link href="/">Shop All Products</Link>
+            <Link href="/products">Shop All Products</Link>
           </Button>
           <Button size="lg" variant="outline" asChild className="shadow-md hover:shadow-lg transition-shadow">
             <Link href="/contact">Get Expert Advice</Link>
@@ -52,7 +52,7 @@ function FeaturedProductsSection({ products }: FeaturedProductsProps) {
       <div className="flex justify-between items-center mb-8">
         <h2 className="text-3xl font-bold tracking-tight text-secondary">Featured Products</h2>
         <Button variant="link" asChild className="text-secondary hover:text-primary">
-          <Link href="/">
+          <Link href="/products">
             View All <ChevronRight className="ml-1 h-5 w-5" />
           </Link>
         </Button>
@@ -114,7 +114,7 @@ function CallToActionSection() {
           Explore our collection of premium gardening supplies and start your journey to a greener thumb today.
         </p>
         <Button size="lg" variant="default" asChild className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-md hover:shadow-lg transition-shadow">
-          <Link href="/">Start Shopping Now</Link>
+          <Link href="/products">Start Shopping Now</Link>
         </Button>
       </div>
     </section>
