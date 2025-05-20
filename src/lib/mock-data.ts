@@ -1,5 +1,5 @@
 
-import type { Product, BlogPost } from '@/types';
+import type { Product, BlogPost, Testimonial } from '@/types';
 
 export const mockProducts: Product[] = [
   // Agriculture Products
@@ -235,5 +235,33 @@ export const mockBlogPosts: BlogPost[] = [
     date: '2024-06-10T11:00:00Z',
     author: 'Mike Gardener',
     content: 'Often overlooked, soil is the single most important ingredient for a flourishing garden. Understanding and nurturing your soil’s health will pay dividends in the form of robust plants and bountiful harvests.\\n\\nSoil is a living ecosystem, teeming with microorganisms, fungi, and earthworms that break down organic matter and make nutrients available to plants. Good soil structure allows for proper aeration, drainage, and root penetration.\\n\\nKey components of healthy soil include: Organic Matter (compost, manure, leaf mold), Minerals (sand, silt, clay), and Pore Spaces (for air and water). The ideal soil, often called loam, has a balanced mix of these.\\n\\nHow to improve your soil? Add organic matter regularly. Compost is king! It improves soil structure, water retention, and nutrient content. BioWe’s Premium Potting Mix and Organic Bloom Booster are excellent sources of organic matter for different needs. Avoid tilling excessively, as it can damage soil structure and harm beneficial organisms. Consider cover crops like clover or rye during the off-season to prevent erosion and add organic matter when tilled in.\\n\\nMulching is another great practice. A layer of organic mulch (wood chips, straw, shredded leaves) helps retain moisture, suppress weeds, and regulate soil temperature. As it decomposes, it also adds organic matter to the soil.\\n\\nBy focusing on building healthy soil, you’re creating a sustainable foundation for your garden to thrive for years to come. BioWe is here to support your journey to better soil and better gardening!',
+  },
+];
+
+
+export const mockTestimonials: Testimonial[] = [
+  {
+    id: 'testimonial-1',
+    quote: "BioWe's De-Compose turned my kitchen scraps into black gold faster than I ever thought possible! My veggies have never been happier.",
+    author: 'Maria S.',
+    role: 'Home Gardener',
+    avatarSrc: 'https://placehold.co/100x100.png',
+    dataAiHint: 'happy person'
+  },
+  {
+    id: 'testimonial-2',
+    quote: "Since using MYCO POWER on my crops, I've seen a significant increase in yield and resilience, even during dry spells. Highly recommend for serious farmers.",
+    author: 'John B.',
+    role: 'Commercial Farmer',
+    avatarSrc: 'https://placehold.co/100x100.png',
+    dataAiHint: 'farmer field'
+  },
+  {
+    id: 'testimonial-3',
+    quote: "The Organic Health Booster revived my struggling flower beds! The colors are more vibrant, and the plants look so much healthier. Thank you, BioWe!",
+    author: 'Lisa P.',
+    role: 'Flower Enthusiast',
+    avatarSrc: 'https://placehold.co/100x100.png',
+    dataAiHint: 'smiling woman'
   },
 ];

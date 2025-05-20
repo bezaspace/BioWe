@@ -4,13 +4,18 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { ProductList } from '@/components/products/ProductList';
-import { mockProducts } from '@/lib/mock-data';
-import type { Product } from '@/types';
-import { ChevronRight, Leaf, ShieldCheck, Smile, Truck } from 'lucide-react';
+import { mockProducts, mockTestimonials } from '@/lib/mock-data';
+import type { Product, Testimonial } from '@/types';
+import { ChevronRight, Leaf, ShieldCheck, Smile, Truck, MessageSquareQuote } from 'lucide-react';
+import { TestimonialCard } from '@/components/home/TestimonialCard';
 
 // Simulate fetching data - we'll take just a few for the homepage
 async function getFeaturedProducts(): Promise<Product[]> {
   return Promise.resolve(mockProducts.slice(0, 4)); // Show first 4 products as featured
+}
+
+async function getTestimonials(): Promise<Testimonial[]> {
+  return Promise.resolve(mockTestimonials.slice(0, 3)); // Show first 3 testimonials
 }
 
 // Hero Section Component
@@ -104,6 +109,34 @@ function WhyChooseUsSection() {
   );
 }
 
+// Testimonials Section Component
+interface TestimonialsSectionProps {
+  testimonials: Testimonial[];
+}
+function TestimonialsSection({ testimonials }: TestimonialsSectionProps) {
+  if (!testimonials || testimonials.length === 0) {
+    return null;
+  }
+  return (
+    <section className="mb-16 py-12">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-center mb-12">
+           <MessageSquareQuote className="h-10 w-10 text-secondary mr-4" />
+          <h2 className="text-3xl font-bold tracking-tight text-center text-secondary">
+            What Our Customers Say
+          </h2>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {testimonials.map((testimonial) => (
+            <TestimonialCard key={testimonial.id} testimonial={testimonial} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
 // Call to Action Section Component
 function CallToActionSection() {
   return (
@@ -124,14 +157,14 @@ function CallToActionSection() {
 
 export default async function HomePage() {
   const featuredProducts = await getFeaturedProducts();
+  const testimonials = await getTestimonials();
 
   return (
     <div className="space-y-12">
       <HeroSection />
       <FeaturedProductsSection products={featuredProducts} />
       <WhyChooseUsSection />
-      {/* You could add a categories section here */}
-      {/* You could add a testimonials section here */}
+      <TestimonialsSection testimonials={testimonials} />
       <CallToActionSection />
     </div>
   );

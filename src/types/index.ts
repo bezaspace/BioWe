@@ -28,3 +28,12 @@ export interface BlogPost {
   content: string; // Full content for the blog post page
   // category: string;
 }
+
+export interface Testimonial {
+  id: string;
+  quote: string;
+  author: string;
+  role?: string; // e.g., "Happy Gardener", "Commercial Farmer"
+  avatarSrc?: string; // URL for placeholder avatar
+  dataAiHint?: string; // For avatar placeholder
+}
