@@ -9,16 +9,15 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardFooter } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { ArrowLeft, MinusCircle, PlusCircle, CheckCircle, XCircle, Info, BookOpen, ShieldAlert, MessageSquare, ThumbsUp, Package, Send, ListChecks, Settings, Leaf, Activity } from 'lucide-react';
+import { ArrowLeft, MinusCircle, PlusCircle, CheckCircle, XCircle, Info, BookOpen, ShieldAlert, MessageSquare, ThumbsUp, Package, Send, ListChecks, Settings, Leaf, Activity, Star } from 'lucide-react';
 import { ProductPageAddToCartButton } from '@/components/products/ProductPageAddToCartButton';
 import { StarRating } from '@/components/shared/StarRating';
 import React, { useState, useEffect } from 'react';
 import { Separator } from '@/components/ui/separator';
-import { cn } from '@/lib/utils'; // Import cn utility
+import { cn } from '@/lib/utils';
+import { ProductList } from '@/components/products/ProductList'; // Import ProductList
 
 async function getProductById(id: string): Promise<Product | undefined> {
-  // In a real app, you'd fetch this from a CMS or database
-  // Simulating async fetch
   return new Promise(resolve => {
     setTimeout(() => {
       resolve(mockProducts.find(p => p.id === id));
@@ -26,17 +25,19 @@ async function getProductById(id: string): Promise<Product | undefined> {
   });
 }
 
-// Helper component to render sections
 interface ProductInfoSectionProps {
   title: string;
-  content: string[] | string | undefined | React.ReactNode; // Allow ReactNode for review section
+  content: string[] | string | undefined | React.ReactNode;
   IconComponent: React.ElementType;
   className?: string;
 }
 
 const ProductInfoSection: React.FC<ProductInfoSectionProps> = ({ title, content, IconComponent, className }) => {
   if (!content || (Array.isArray(content) && content.length === 0 && typeof content !== 'string' && !React.isValidElement(content))) {
-    return null;
+    // If content is specifically an empty array for related products or similar, allow it to render a "no items" message if desired by the caller.
+    // The ProductList component handles its own "no products found" message.
+    // For other types of empty content, we might return null.
+    // For this specific use case, we will let the caller decide to render or not, or pass specific empty state content.
   }
 
   return (
@@ -46,12 +47,12 @@ const ProductInfoSection: React.FC<ProductInfoSectionProps> = ({ title, content,
         {title}
       </h2>
       <div className="text-base text-foreground space-y-2 pl-1">
-        {Array.isArray(content) ? (
+        {Array.isArray(content) && typeof content[0] === 'string' ? (
           <ul className="list-disc list-outside ml-5 space-y-1">
-            {content.map((item, index) => <li key={index}>{item}</li>)}
+            {(content as string[]).map((item, index) => <li key={index}>{item}</li>)}
           </ul>
         ) : (
-          <div>{content}</div> // Use div to wrap string or ReactNode
+          <div>{content}</div>
         )}
       </div>
     </section>
@@ -64,21 +65,39 @@ export default function ProductDetailPage() {
   const [product, setProduct] = useState<Product | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
+  const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
 
   useEffect(() => {
-    async function fetchProduct(productId: string) {
+    async function fetchProductData(productId: string) {
       setIsLoading(true);
       const fetchedProduct = await getProductById(productId);
       if (fetchedProduct) {
         setProduct(fetchedProduct);
+
+        // Fetch/filter related products
+        const allProducts = mockProducts;
+        let filteredRelated = allProducts
+          .filter(p => p.category === fetchedProduct.category && p.id !== fetchedProduct.id)
+          .slice(0, 3); // Take up to 3 from the same category
+
+        if (filteredRelated.length < 3) {
+          const otherProducts = allProducts
+            .filter(p => p.category !== fetchedProduct.category && p.id !== fetchedProduct.id);
+          const needed = 3 - filteredRelated.length;
+          // Shuffle otherProducts for more variety if desired, then slice
+          // For simplicity, just take the first 'needed' items.
+          const shuffledOthers = [...otherProducts].sort(() => 0.5 - Math.random());
+          filteredRelated = [...filteredRelated, ...shuffledOthers.slice(0, needed)];
+        }
+        setRelatedProducts(filteredRelated.slice(0,3)); // Ensure max 3 related products
       }
       setIsLoading(false);
     }
 
     if (routeParams && typeof routeParams.id === 'string') {
-      fetchProduct(routeParams.id);
+      fetchProductData(routeParams.id);
     } else {
-      setIsLoading(false); // Handle cases where ID might not be available initially
+      setIsLoading(false);
     }
   }, [routeParams?.id]);
 
@@ -104,6 +123,19 @@ export default function ProductDetailPage() {
 
   const availabilityColor = product.availability === 'In Stock' ? 'text-green-600' : product.availability === 'Out of Stock' ? 'text-red-600' : 'text-yellow-600';
   const AvailabilityIcon = product.availability === 'In Stock' ? CheckCircle : product.availability === 'Out of Stock' ? XCircle : Info;
+
+  const renderReviews = () => {
+    if (product.rating !== undefined && product.reviewCount !== undefined && product.reviewCount > 0) {
+      return (
+        <div className="flex flex-col items-start space-y-2">
+          <StarRating rating={product.rating} reviewCount={product.reviewCount} starClassName="h-6 w-6" />
+          <p className="text-sm text-muted-foreground">Based on {product.reviewCount} review{product.reviewCount > 1 ? 's' : ''}.</p>
+          {/* Placeholder for individual reviews if implemented later */}
+        </div>
+      );
+    }
+    return <p className="text-muted-foreground">No reviews yet. Be the first to review!</p>;
+  };
 
   return (
     <div className="max-w-5xl mx-auto">
@@ -140,7 +172,7 @@ export default function ProductDetailPage() {
 
               {product.rating !== undefined && product.reviewCount !== undefined && (
                 <div className="mb-3 flex items-center">
-                  <StarRating rating={product.rating} reviewCount={product.reviewCount} starClassName="h-5 w-5" />
+                  <StarRating rating={product.rating} reviewCount={product.reviewCount} starClassName="h-5 w-5" showReviewCount={true}/>
                 </div>
               )}
 
@@ -223,9 +255,7 @@ export default function ProductDetailPage() {
 
             <ProductInfoSection
               title="Customer Reviews"
-              content={product.rating !== undefined && product.reviewCount !== undefined && product.reviewCount > 0 ? 
-                (<div><StarRating rating={product.rating} reviewCount={product.reviewCount} starClassName="h-6 w-6" /><p className="mt-2 text-sm text-muted-foreground">Full customer reviews functionality coming soon!</p></div>) : 
-                "No reviews yet. Be the first to review!"}
+              content={renderReviews()}
               IconComponent={MessageSquare}
             />
             
@@ -233,7 +263,13 @@ export default function ProductDetailPage() {
 
             <ProductInfoSection
               title="Related Products"
-              content="Suggestions for related products coming soon!"
+              content={
+                relatedProducts.length > 0 ? (
+                  <ProductList products={relatedProducts} />
+                ) : (
+                  <p className="text-muted-foreground">No related products to display at this time.</p>
+                )
+              }
               IconComponent={Package}
             />
 
@@ -250,4 +286,3 @@ export default function ProductDetailPage() {
     </div>
   );
 }
-
