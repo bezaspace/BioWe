@@ -15,6 +15,7 @@ export function Navbar() {
 
   const navLinks = [
     { href: '/', label: 'Home' },
+    { href: '/about', label: 'About Us' },
     { href: '/products', label: 'Products' },
     { href: '/blog', label: 'Blog' },
     { href: '/contact', label: 'Contact Us' },
@@ -24,7 +25,7 @@ export function Navbar() {
     if (linkHref === '/') {
       return currentPathname === '/';
     }
-    // For other links like /products, /blog
+    // For other links like /products, /blog, /about
     // Check for exact match or if it's a parent route of the current path
     if (currentPathname === linkHref) {
       return true;
