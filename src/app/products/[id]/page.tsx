@@ -2,7 +2,7 @@
 "use client"; // For useState and event handlers
 
 import Image from 'next/image';
-import { notFound } from 'next/navigation';
+import { notFound, useParams } from 'next/navigation'; // Import useParams
 import type { Product } from '@/types';
 import { mockProducts } from '@/lib/mock-data';
 import { Button } from '@/components/ui/button';
@@ -30,32 +30,33 @@ async function getProductById(id: string): Promise<Product | undefined> {
   });
 }
 
-// Removed generateStaticParams to ensure page is always dynamically rendered
-// and can fetch fresh data if needed, also to avoid issues with mock data length changes.
-
-// Removed generateMetadata because it needs to be async and use the same data fetching
-// as the page, but we're making the page client-rendered for quantity state.
-// For full SSR/SSG with metadata, state management would need a different approach.
-
-export default function ProductDetailPage({ params }: { params: { id: string } }) {
+export default function ProductDetailPage() { // Removed params from props
+  const routeParams = useParams<{ id: string }>(); // Use the useParams hook
   const [product, setProduct] = useState<Product | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
-    async function fetchProduct() {
+    async function fetchProduct(productId: string) {
       setIsLoading(true);
-      const fetchedProduct = await getProductById(params.id);
+      const fetchedProduct = await getProductById(productId);
       if (fetchedProduct) {
         setProduct(fetchedProduct);
       } else {
-        // Handle not found case, perhaps redirect or show a specific message
-        // For now, relying on notFound() if product is null after fetch
+        // The existing notFound() call outside this effect will handle it if product remains null
       }
       setIsLoading(false);
     }
-    fetchProduct();
-  }, [params.id]);
+
+    if (routeParams && typeof routeParams.id === 'string') {
+      fetchProduct(routeParams.id);
+    } else {
+      // Handle cases where id might not be available as expected
+      setIsLoading(false);
+      // Potentially call notFound() here if id is crucial and missing,
+      // though the page structure implies it should always exist.
+    }
+  }, [routeParams?.id]); // Depend on routeParams.id
 
   if (isLoading) {
     return (
@@ -67,7 +68,7 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
   }
 
   if (!product) {
-    notFound(); // Triggers the not-found page
+    notFound(); // Triggers the not-found page if product is null after loading attempts
   }
 
   const handleQuantityChange = (amount: number) => {
@@ -263,3 +264,4 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
     </div>
   );
 }
+
