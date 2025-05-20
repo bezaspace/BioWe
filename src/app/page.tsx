@@ -93,8 +93,8 @@ function WhyChooseUsSection() {
   ];
 
   return (
-    <section className="mb-16 py-12">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="mb-16">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <h2 className="text-3xl font-bold tracking-tight text-center text-secondary mb-12">Why BioWe?</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {features.map((feature, index) => (
@@ -150,7 +150,7 @@ function BlogSnippetsSection({ posts }: BlogSnippetsSectionProps) {
     return null;
   }
   return (
-    <section className="mb-16 py-12 bg-gradient-to-r from-green-50 via-emerald-50 to-teal-50 dark:from-green-900/30 dark:via-emerald-950/30 dark:to-teal-900/30 rounded-xl shadow-md">
+    <section className="mb-16 py-12">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row justify-between items-center mb-8">
           <div className="flex items-center mb-4 sm:mb-0">
@@ -210,3 +210,4 @@ export default async function HomePage() {
     </div>
   );
 }
+
