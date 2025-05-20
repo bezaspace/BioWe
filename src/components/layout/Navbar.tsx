@@ -14,9 +14,10 @@ export function Navbar() {
   const cartItemCount = getCartItemCount();
 
   const navLinks = [
+    { href: '/', label: 'Home' }, // Added Home link
     { href: '/products', label: 'Products' },
     { href: '/blog', label: 'Blog' },
-    { href: '/cart', label: 'Cart' },
+    // { href: '/cart', label: 'Cart' }, // Cart is handled by the icon
     { href: '/contact', label: 'Contact Us' },
   ];
 
@@ -36,9 +37,11 @@ export function Navbar() {
                 href={link.href}
                 className={cn(
                   "text-lg hover:text-primary transition-colors",
-                  (pathname === link.href || 
-                   (link.href === '/products' && pathname.startsWith('/products')) || // For individual product pages if they exist later
-                   (link.href === '/blog' && pathname.startsWith('/blog'))) 
+                  // Updated active link logic
+                  (pathname === link.href ||
+                   (link.href === '/products' && pathname.startsWith('/products')) ||
+                   (link.href === '/blog' && pathname.startsWith('/blog') && link.href !== '/') || // Ensure home is only active on exact match
+                   (link.href === '/' && pathname === '/'))
                     ? "text-primary font-semibold" 
                     : "text-foreground"
                 )}
