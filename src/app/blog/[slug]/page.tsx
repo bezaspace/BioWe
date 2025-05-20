@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import type { BlogPost } from '@/types';
 import { mockBlogPosts } from '@/lib/mock-data';
-import { CalendarDays, UserCircle, ArrowLeft } from 'lucide-react';
+import { CalendarDays, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -55,10 +55,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
               <CalendarDays className="h-4 w-4 mr-1.5" />
               <span>{new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
             </div>
-            <div className="flex items-center">
-              <UserCircle className="h-4 w-4 mr-1.5" />
-              <span>By {post.author}</span>
-            </div>
+            {/* Author display removed */}
           </div>
 
           {/* For rich text content, you might use a Markdown renderer here in a real app */}
@@ -93,4 +90,3 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     description: post.excerpt,
   };
 }
-
