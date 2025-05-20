@@ -2,66 +2,189 @@
 import type { Product, BlogPost } from '@/types';
 
 export const mockProducts: Product[] = [
+  // Agriculture Products
   {
-    id: '1',
-    name: 'Organic Bloom Booster',
-    description: 'A potent fertilizer to enhance flowering and fruiting in your plants. Made with all-natural ingredients.',
-    price: 19.99,
+    id: 'agri-1',
+    name: 'De-Compose',
+    description: 'An advanced bio-formulation to accelerate the decomposition of organic farm waste, turning it into nutrient-rich compost quickly.',
+    price: 25.99,
     imageSrc: 'https://placehold.co/600x400.png',
-    imageAlt: 'Bag of Organic Bloom Booster fertilizer',
-    category: 'Fertilizers',
+    imageAlt: 'Container of De-Compose',
+    category: 'Agriculture',
+    dataAiHint: 'compost accelerator'
+  },
+  {
+    id: 'agri-2',
+    name: 'Bio fertilizer',
+    description: 'A powerful blend of beneficial microbes that enhance soil fertility, improve nutrient uptake, and promote vigorous plant growth for various crops.',
+    price: 18.50,
+    imageSrc: 'https://placehold.co/600x400.png',
+    imageAlt: 'Bag of Bio fertilizer',
+    category: 'Agriculture',
     dataAiHint: 'fertilizer bag'
   },
   {
-    id: '2',
-    name: 'Premium Potting Mix',
-    description: 'Enriched soil blend perfect for indoor and outdoor container gardening. Promotes healthy root growth.',
-    price: 12.50,
+    id: 'agri-3',
+    name: 'Bio Fungicide',
+    description: 'An organic solution to control and prevent fungal diseases in crops, ensuring healthier plants and better yields without harmful chemicals.',
+    price: 22.00,
     imageSrc: 'https://placehold.co/600x400.png',
-    imageAlt: 'Bag of Premium Potting Mix',
-    category: 'Soils & Mixes',
-    dataAiHint: 'soil bag'
+    imageAlt: 'Bottle of Bio Fungicide',
+    category: 'Agriculture',
+    dataAiHint: 'fungicide bottle'
   },
   {
-    id: '3',
-    name: 'Gardening Gloves - Heavy Duty',
-    description: 'Durable and comfortable gloves to protect your hands while gardening. Thorn-proof and water-resistant.',
+    id: 'agri-4',
+    name: 'Bio Pesticide',
+    description: 'Effectively manages a broad spectrum of agricultural pests using natural ingredients, safe for the environment and beneficial insects.',
+    price: 20.75,
+    imageSrc: 'https://placehold.co/600x400.png',
+    imageAlt: 'Bottle of Bio Pesticide',
+    category: 'Agriculture',
+    dataAiHint: 'pesticide spray'
+  },
+  {
+    id: 'agri-5',
+    name: 'MYCO POWER',
+    description: 'A mycorrhizal inoculant that establishes a symbiotic relationship with plant roots, greatly enhancing nutrient and water absorption.',
+    price: 29.99,
+    imageSrc: 'https://placehold.co/600x400.png',
+    imageAlt: 'Container of MYCO POWER',
+    category: 'Agriculture',
+    dataAiHint: 'mycorrhizal inoculant'
+  },
+  {
+    id: 'agri-6',
+    name: 'Sea Wonder- Seaweed Extract',
+    description: 'Concentrated seaweed extract rich in natural growth stimulants, trace elements, and vitamins to boost plant health and stress resistance.',
+    price: 15.50,
+    imageSrc: 'https://placehold.co/600x400.png',
+    imageAlt: 'Bottle of Sea Wonder Seaweed Extract',
+    category: 'Agriculture',
+    dataAiHint: 'seaweed extract'
+  },
+  {
+    id: 'agri-7',
+    name: 'Nature Choice',
+    description: 'A versatile organic plant food suitable for a wide range of crops, providing balanced nutrition for optimal growth and productivity.',
+    price: 17.00,
+    imageSrc: 'https://placehold.co/600x400.png',
+    imageAlt: 'Bag of Nature Choice plant food',
+    category: 'Agriculture',
+    dataAiHint: 'organic fertilizer'
+  },
+  {
+    id: 'agri-8',
+    name: 'SILICIC',
+    description: 'A bio-available silicon supplement that strengthens plant cell walls, improves drought tolerance, and enhances resistance to pests and diseases.',
+    price: 24.50,
+    imageSrc: 'https://placehold.co/600x400.png',
+    imageAlt: 'Container of SILICIC supplement',
+    category: 'Agriculture',
+    dataAiHint: 'silicon supplement'
+  },
+  {
+    id: 'agri-9',
+    name: 'Palm Nutrients',
+    description: 'Specially formulated nutrient mix to meet the specific dietary requirements of palm trees, promoting lush fronds and healthy growth.',
+    price: 21.00,
+    imageSrc: 'https://placehold.co/600x400.png',
+    imageAlt: 'Bag of Palm Nutrients',
+    category: 'Agriculture',
+    dataAiHint: 'palm fertilizer'
+  },
+
+  // Gardening Products
+  {
+    id: 'gard-1',
+    name: 'Enriched Cocopeat',
+    description: 'High-quality cocopeat block, enriched with essential nutrients. Provides excellent aeration and water retention for potting mixes.',
+    price: 8.99,
+    imageSrc: 'https://placehold.co/600x400.png',
+    imageAlt: 'Block of Enriched Cocopeat',
+    category: 'Gardening Products',
+    dataAiHint: 'cocopeat block'
+  },
+  {
+    id: 'gard-2',
+    name: 'Vermiculite',
+    description: 'A natural mineral that improves soil aeration and moisture retention. Ideal for seed starting and conditioning potting mixes.',
+    price: 10.50,
+    imageSrc: 'https://placehold.co/600x400.png',
+    imageAlt: 'Bag of Vermiculite',
+    category: 'Gardening Products',
+    dataAiHint: 'vermiculite bag'
+  },
+  {
+    id: 'gard-3',
+    name: 'Perlite',
+    description: 'Lightweight volcanic glass that enhances drainage and aeration in soil, preventing compaction and promoting healthy root growth.',
     price: 9.75,
     imageSrc: 'https://placehold.co/600x400.png',
-    imageAlt: 'Pair of heavy-duty gardening gloves',
-    category: 'Tools & Accessories',
-    dataAiHint: 'gardening gloves'
+    imageAlt: 'Bag of Perlite',
+    category: 'Gardening Products',
+    dataAiHint: 'perlite bag'
   },
   {
-    id: '4',
-    name: 'Eco-Friendly Pest Control Spray',
-    description: 'Safely protect your plants from common pests without harmful chemicals. Safe for pets and pollinators.',
-    price: 15.00,
+    id: 'gard-4',
+    name: 'Phytosil',
+    description: 'A silicon-based soil conditioner and plant health booster for home gardens. Strengthens plants against stress and diseases.',
+    price: 16.00,
     imageSrc: 'https://placehold.co/600x400.png',
-    imageAlt: 'Bottle of eco-friendly pest control spray',
-    category: 'Pest Control',
-    dataAiHint: 'spray bottle'
+    imageAlt: 'Bottle of Phytosil',
+    category: 'Gardening Products',
+    dataAiHint: 'plant supplement'
   },
   {
-    id: '5',
-    name: 'Heirloom Tomato Seeds',
-    description: 'A variety pack of heirloom tomato seeds for a delicious and colorful harvest. Non-GMO.',
-    price: 4.99,
+    id: 'gard-5',
+    name: 'Organic health booster',
+    description: 'A comprehensive organic mix to revitalize garden soil and boost plant vitality, packed with micronutrients and beneficial microbes.',
+    price: 14.99,
     imageSrc: 'https://placehold.co/600x400.png',
-    imageAlt: 'Packet of heirloom tomato seeds',
-    category: 'Seeds',
-    dataAiHint: 'seeds packet'
+    imageAlt: 'Bag of Organic health booster',
+    category: 'Gardening Products',
+    dataAiHint: 'soil amendment'
   },
   {
-    id: '6',
-    name: 'Self-Watering Planter Pot',
-    description: 'Stylish and functional self-watering pot, ideal for busy plant parents. Keeps soil moist for days.',
-    price: 24.99,
+    id: 'gard-6',
+    name: 'Vermicompost',
+    description: 'Nutrient-rich organic compost created by earthworms. Excellent for improving soil structure and providing essential plant nutrients.',
+    price: 12.50,
     imageSrc: 'https://placehold.co/600x400.png',
-    imageAlt: 'Self-watering planter pot',
-    category: 'Pots & Planters',
-    dataAiHint: 'plant pot'
+    imageAlt: 'Bag of Vermicompost',
+    category: 'Gardening Products',
+    dataAiHint: 'worm castings'
   },
+  {
+    id: 'gard-7',
+    name: 'Grow cubes',
+    description: 'Convenient, pre-formed cubes made of high-quality substrate, perfect for seed starting and rooting cuttings with minimal mess.',
+    price: 7.50,
+    imageSrc: 'https://placehold.co/600x400.png',
+    imageAlt: 'Pack of Grow cubes',
+    category: 'Gardening Products',
+    dataAiHint: 'seed starters'
+  },
+  {
+    id: 'gard-8',
+    name: 'Rose mixture',
+    description: 'A specialized blend of organic ingredients tailored to the needs of rose plants, promoting abundant blooms and vigorous growth.',
+    price: 13.75,
+    imageSrc: 'https://placehold.co/600x400.png',
+    imageAlt: 'Bag of Rose mixture',
+    category: 'Gardening Products',
+    dataAiHint: 'rose fertilizer'
+  },
+  {
+    id: 'gard-9',
+    name: 'Garden Mix',
+    description: 'A ready-to-use premium soil mix for all your gardening needs, perfect for pots, raised beds, and garden plots. Promotes healthy plant growth.',
+    price: 11.99,
+    imageSrc: 'https://placehold.co/600x400.png',
+    imageAlt: 'Bag of Garden Mix soil',
+    category: 'Gardening Products',
+    dataAiHint: 'potting soil'
+  }
 ];
 
 export const mockBlogPosts: BlogPost[] = [
