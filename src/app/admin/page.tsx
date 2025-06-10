@@ -3,6 +3,7 @@
 import { useAuth } from '@/context/auth/AuthContext';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import ProductAdminSection from '@/components/products/ProductAdminSection';
 
 type AdminUser = {
   uid: string;
@@ -110,6 +111,12 @@ export default function AdminDashboard() {
               )}
             </div>
           )}
+        </div>
+
+        {/* Product Management Section */}
+        <div className="bg-white p-6 rounded-lg shadow-md mt-8">
+          <h2 className="text-xl font-semibold mb-4 text-gray-700">Manage Products</h2>
+          <ProductAdminSection getIdToken={getIdToken} />
         </div>
       </div>
     </div>

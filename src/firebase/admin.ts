@@ -1,5 +1,6 @@
 import { cert, getApps, getApp, initializeApp, App, ServiceAccount } from 'firebase-admin/app';
 import { getAuth as getAdminAuth } from 'firebase-admin/auth';
+import { getStorage } from 'firebase-admin/storage';
 import { firebaseConfig } from './config';
 
 const serviceAccount: ServiceAccount = {
@@ -13,11 +14,13 @@ let adminApp: App;
 if (getApps().length === 0) {
   adminApp = initializeApp({
     credential: cert(serviceAccount),
+    storageBucket: firebaseConfig.storageBucket,
   });
 } else {
   adminApp = getApp();
 }
 
 const adminAuth = getAdminAuth(adminApp);
+const adminStorage = getStorage(adminApp);
 
-export { adminApp, adminAuth };
+export { adminApp, adminAuth, adminStorage };
