@@ -44,3 +44,22 @@ export interface Testimonial {
   avatarSrc?: string; // URL for placeholder avatar
   dataAiHint?: string; // For avatar placeholder
 }
+
+export interface UserProfile {
+  uid: string;
+  displayName: string;
+  email: string;
+  photoURL?: string;
+  phoneNumber?: string;
+  shippingAddress?: {
+    fullName: string;
+    addressLine1: string;
+    addressLine2?: string;
+    city: string;
+    state: string;
+    postalCode: string;
+    country: string;
+  };
+  createdAt?: string;
+  lastLoginAt?: string;
+}

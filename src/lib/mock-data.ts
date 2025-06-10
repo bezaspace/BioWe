@@ -1,5 +1,5 @@
 
-import type { Product, BlogPost, Testimonial } from '@/types';
+import type { Product, BlogPost, Testimonial } from '../types';
 
 export const mockProducts: Product[] = [
   // Agriculture Products

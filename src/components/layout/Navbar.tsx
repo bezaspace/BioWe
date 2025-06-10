@@ -3,13 +3,17 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import { ShoppingBag, Menu, Search as SearchIcon } from 'lucide-react';
+import { ShoppingBag, Menu, Search as SearchIcon, User } from 'lucide-react';
 import { SearchInput } from '@/components/shared/SearchInput';
 import { useSearch } from '@/lib/search';
 import { useCart } from '@/context/CartContext';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { LoginModal } from '@/components/auth/LoginModal';
+import { UserMenu } from '@/components/auth/UserMenu';
+import { useAuth } from '@/context/auth/AuthContext';
 import {
   Sheet,
   SheetContent,
@@ -20,6 +24,10 @@ import {
 
 export function Navbar() {
   const { getCartItemCount } = useCart();
+  const { user, loading } = useAuth();
+  
+  // Debug logs
+  console.log('Navbar - Auth State:', { user, loading });
   const pathname = usePathname();
   const cartItemCount = getCartItemCount();
   const [isOpen, setIsOpen] = useState(false);
@@ -99,6 +107,15 @@ export function Navbar() {
           </div>
 
           <div className="flex items-center space-x-4">
+            {!loading && (
+              <div className="flex items-center space-x-2">
+                {user ? (
+                  <UserMenu />
+                ) : (
+                  <LoginModal />
+                )}
+              </div>
+            )}
             <Link href="/cart" className="relative flex items-center text-foreground hover:text-primary transition-colors p-2">
               <ShoppingBag className="h-7 w-7" />
               {cartItemCount > 0 && (

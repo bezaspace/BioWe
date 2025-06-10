@@ -4,6 +4,7 @@ import { Poppins as FontSans } from 'next/font/google'; // Changed from Inter to
 import './globals.css';
 import { cn } from '@/lib/utils';
 import { CartProvider } from '@/context/CartContext';
+import { AuthProvider } from '@/context/auth/AuthContext';
 import { AppLayout } from '@/components/layout/AppLayout';
 
 const fontSans = FontSans({
@@ -20,7 +21,7 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.Node;
+  children: React.ReactNode;
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
@@ -30,9 +31,11 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        <CartProvider>
-          <AppLayout>{children}</AppLayout>
-        </CartProvider>
+        <AuthProvider>
+          <CartProvider>
+            <AppLayout>{children}</AppLayout>
+          </CartProvider>
+        </AuthProvider>
       </body>
     </html>
   );

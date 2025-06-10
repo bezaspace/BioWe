@@ -4,15 +4,24 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { ProductList } from '@/components/products/ProductList';
-import { mockProducts, mockTestimonials, mockBlogPosts } from '@/lib/mock-data';
+import { mockTestimonials, mockBlogPosts } from '@/lib/mock-data';
 import type { Product, Testimonial, BlogPost } from '@/types';
 import { ChevronRight, Leaf, ShieldCheck, Smile, Truck, MessageSquareQuote, Rss } from 'lucide-react';
 import { TestimonialCard } from '@/components/home/TestimonialCard';
 import { BlogPostCard } from '@/components/blog/BlogPostCard'; // Import BlogPostCard
 
-// Simulate fetching data - we'll take just a few for the homepage
+import { headers } from 'next/headers';
+
 async function getFeaturedProducts(): Promise<Product[]> {
-  return Promise.resolve(mockProducts.slice(0, 4)); // Show first 4 products as featured
+  const h = await headers();
+  const host = h.get('host');
+  const protocol = host?.startsWith('localhost') ? 'http' : 'https';
+  const baseUrl = `${protocol}://${host}`;
+  const res = await fetch(`${baseUrl}/api/products`, {
+    cache: 'no-store',
+  });
+  const products: Product[] = await res.json();
+  return products.slice(0, 4);
 }
 
 async function getTestimonials(): Promise<Testimonial[]> {
@@ -210,4 +219,3 @@ export default async function HomePage() {
     </div>
   );
 }
-

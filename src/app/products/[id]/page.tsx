@@ -4,7 +4,6 @@
 import Image from 'next/image';
 import { notFound, useParams } from 'next/navigation';
 import type { Product } from '@/types';
-import { mockProducts } from '@/lib/mock-data';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardFooter } from '@/components/ui/card';
@@ -17,13 +16,6 @@ import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 import { ProductList } from '@/components/products/ProductList';
 
-async function getProductById(id: string): Promise<Product | undefined> {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(mockProducts.find(p => p.id === id));
-    }, 0);
-  });
-}
 
 interface ProductInfoSectionProps {
   title: string;
@@ -66,12 +58,21 @@ export default function ProductDetailPage() {
 
   useEffect(() => {
     async function fetchProductData(productId: string) {
-      setIsLoading(true); // Ensure loading is true at the start of a fetch attempt
-      const fetchedProduct = await getProductById(productId);
-      if (fetchedProduct) {
+      setIsLoading(true);
+      try {
+        const res = await fetch(`/api/products/${productId}`);
+        if (!res.ok) {
+          setProduct(null);
+          setIsLoading(false);
+          return;
+        }
+        const fetchedProduct = await res.json();
         setProduct(fetchedProduct);
 
-        const allProducts = mockProducts;
+        // Fetch all products for related products
+        const allRes = await fetch('/api/products');
+        const allProducts: Product[] = await allRes.json();
+
         let filteredRelated = allProducts
           .filter(p => p.category === fetchedProduct.category && p.id !== fetchedProduct.id)
           .slice(0, 3);
@@ -83,22 +84,16 @@ export default function ProductDetailPage() {
           const shuffledOthers = [...otherProducts].sort(() => 0.5 - Math.random());
           filteredRelated = [...filteredRelated, ...shuffledOthers.slice(0, needed)];
         }
-        setRelatedProducts(filteredRelated.slice(0,3));
-      } else {
-        setProduct(null); // Explicitly set product to null if not found
+        setRelatedProducts(filteredRelated.slice(0, 3));
+      } catch (error) {
+        setProduct(null);
       }
-      setIsLoading(false); // Set loading to false after the fetch attempt completes
+      setIsLoading(false);
     }
 
     if (routeParams && typeof routeParams.id === 'string') {
       fetchProductData(routeParams.id);
     }
-    // If routeParams.id is not a string (e.g., routeParams is {} initially),
-    // fetchProductData is not called. isLoading remains true.
-    // When routeParams.id becomes a string, this effect re-runs, and fetchProductData is called.
-    // If routeParams.id never becomes a string (e.g. if routing/param setup is incorrect for this page),
-    // isLoading would remain true, and the loading spinner would persist.
-    // This scenario implies a routing issue rather than a data fetching issue for this specific page.
   }, [routeParams?.id]);
 
 
@@ -293,4 +288,3 @@ export default function ProductDetailPage() {
     </div>
   );
 }
-

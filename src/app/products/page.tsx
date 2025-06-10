@@ -1,6 +1,5 @@
 
 import { ProductList } from '@/components/products/ProductList';
-import { mockProducts } from '@/lib/mock-data';
 import type { Product } from '@/types';
 import { PackageSearch } from 'lucide-react';
 
@@ -8,14 +7,22 @@ interface ProductsPageProps {
   searchParams: { q?: string };
 }
 
+import { headers } from 'next/headers';
+
 async function getFilteredProducts(search?: string): Promise<Product[]> {
-  // In a real app, you'd fetch this from a database or API with search params
-  if (!search) {
-    return mockProducts;
-  }
+  const h = await headers();
+  const host = h.get('host');
+  const protocol = host?.startsWith('localhost') ? 'http' : 'https';
+  const baseUrl = `${protocol}://${host}`;
+  const res = await fetch(`${baseUrl}/api/products`, {
+    cache: 'no-store',
+  });
+  const products: Product[] = await res.json();
+
+  if (!search) return products;
 
   const searchLower = search.toLowerCase();
-  return mockProducts.filter(product => {
+  return products.filter(product => {
     const searchableText = [
       product.name,
       product.description,
@@ -24,7 +31,7 @@ async function getFilteredProducts(search?: string): Promise<Product[]> {
       ...(product.features || []),
       ...(Array.isArray(product.ingredients) ? product.ingredients : [])
     ].join(' ').toLowerCase();
-    
+
     return searchableText.includes(searchLower);
   });
 }
