@@ -4,11 +4,12 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { ProductList } from '@/components/products/ProductList';
-import { mockTestimonials, mockBlogPosts } from '@/lib/mock-data';
+import { mockTestimonials, mockBlogPosts, mockProducts } from '@/lib/mock-data';
 import type { Product, Testimonial, BlogPost } from '@/types';
 import { ChevronRight, Leaf, ShieldCheck, Smile, Truck, MessageSquareQuote, Rss } from 'lucide-react';
 import { TestimonialCard } from '@/components/home/TestimonialCard';
 import { BlogPostCard } from '@/components/blog/BlogPostCard'; // Import BlogPostCard
+import CategoryTilesSection from '@/components/home/CategoryTilesSection';
 
 import { headers } from 'next/headers';
 
@@ -35,23 +36,23 @@ async function getRecentBlogPosts(): Promise<BlogPost[]> {
 // Hero Section Component
 function HeroSection() {
   return (
-    <section className="relative bg-gradient-to-r from-green-100 via-emerald-50 to-teal-100 dark:from-green-900 dark:via-emerald-950 dark:to-teal-900 py-20 md:py-32 rounded-xl shadow-lg overflow-hidden mb-16">
+    <section className="relative bg-gradient-to-r from-green-100 via-emerald-50 to-teal-100 dark:from-green-900 dark:via-emerald-950 dark:to-teal-900 aspect-[4/3] min-h-[225px] rounded-xl shadow-lg overflow-hidden">
       <div className="absolute inset-0 opacity-10">
         {/* Decorative background elements if desired */}
       </div>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-        <Leaf className="mx-auto h-16 w-16 text-secondary mb-6" />
-        <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight mb-6">
+        <Leaf className="mx-auto h-10 w-10 text-secondary mb-3" />
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight mb-3">
           Welcome to <span className="text-secondary">BioWe</span>
         </h1>
-        <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-10">
+        <p className="text-base sm:text-lg text-muted-foreground max-w-xl mx-auto mb-4">
           Nurturing your green oasis with premium, eco-friendly gardening supplies. Grow healthier, happier plants with BioWe.
         </p>
-        <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
-          <Button size="lg" asChild className="shadow-md hover:shadow-lg transition-shadow">
+        <div className="flex flex-col sm:flex-row justify-center items-center space-y-2 sm:space-y-0 sm:space-x-2">
+          <Button size="sm" asChild className="shadow-md hover:shadow-lg transition-shadow">
             <Link href="/products">Shop All Products</Link>
           </Button>
-          <Button size="lg" variant="outline" asChild className="shadow-md hover:shadow-lg transition-shadow">
+          <Button size="sm" variant="outline" asChild className="shadow-md hover:shadow-lg transition-shadow">
             <Link href="/contact">Get Expert Advice</Link>
           </Button>
         </div>
@@ -208,8 +209,12 @@ export default async function HomePage() {
   const testimonials = await getTestimonials();
   const recentBlogPosts = await getRecentBlogPosts(); // Fetch recent blog posts
 
+  // Use mockProducts for categories (replace with API fetch if needed)
+  const allProducts: Product[] = mockProducts;
+
   return (
-    <div className="space-y-12">
+    <div>
+      <CategoryTilesSection products={allProducts} />
       <HeroSection />
       <FeaturedProductsSection products={featuredProducts} />
       <WhyChooseUsSection />

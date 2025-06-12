@@ -27,36 +27,35 @@ export function ProductCard({ product }: ProductCardProps) {
   };
 
   return (
-    <Card className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 h-full">
-      <CardHeader className="p-0">
-        <Link href={`/products/${product.id}`} className="block aspect-[4/3] relative w-full">
-          <Image
-            src={product.imageSrc}
-            alt={product.imageAlt}
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            className="object-cover"
-            data-ai-hint={product.dataAiHint}
-          />
-        </Link>
-      </CardHeader>
-      <CardContent className="p-4 flex-grow">
-        <CardTitle className="text-xl mb-1">
-          <Link href={`/products/${product.id}`} className="hover:text-primary transition-colors">
+<Card className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 h-full">
+  <CardHeader className="p-0">
+    <Link href={`/products/${product.id}`} className="block relative w-full h-48">
+      <Image
+        src={product.imageSrc}
+        alt={product.imageAlt}
+        fill
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        className="object-cover"
+        data-ai-hint={product.dataAiHint}
+      />
+    </Link>
+  </CardHeader>
+      <CardContent className="p-2 flex-grow">
+        <CardTitle className="text-base mb-0.5">
+          <Link href={`/products/${product.id}`} className="hover:text-primary transition-colors line-clamp-1">
             {product.name}
           </Link>
         </CardTitle>
-        <p className="text-lg font-semibold text-primary mb-2">${product.price.toFixed(2)}</p>
+        <p className="text-sm font-semibold text-primary mb-1">${product.price.toFixed(2)}</p>
         {product.rating !== undefined && product.reviewCount !== undefined && (
-          <div className="mb-2">
-            <StarRating rating={product.rating} reviewCount={product.reviewCount} />
+          <div className="mb-1">
+<StarRating rating={product.rating} reviewCount={product.reviewCount} />
           </div>
         )}
-        <CardDescription className="text-sm text-muted-foreground line-clamp-3">{product.description}</CardDescription>
       </CardContent>
-      <CardFooter className="p-4 pt-0">
-        <Button onClick={handleAddToCart} className="w-full">
-          <ShoppingCart className="mr-2 h-5 w-5" /> Add to Cart
+      <CardFooter className="p-2 pt-0">
+        <Button onClick={handleAddToCart} className="w-full h-8 px-2 py-1 text-xs">
+          <ShoppingCart className="mr-1 h-4 w-4" /> Buy
         </Button>
       </CardFooter>
     </Card>

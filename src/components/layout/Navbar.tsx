@@ -4,7 +4,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { ShoppingBag, Menu, Search as SearchIcon, User } from 'lucide-react';
-import { SearchInput } from '@/components/shared/SearchInput';
 import { useSearch } from '@/lib/search';
 import { useCart } from '@/context/CartContext';
 import { usePathname } from 'next/navigation';
@@ -84,12 +83,6 @@ export function Navbar() {
           
           {/* Desktop Search and Navigation */}
           <div className="hidden md:flex items-center space-x-6">
-            <SearchInput
-              variant="navbar"
-              value={searchQuery}
-              onChange={handleSearch}
-              placeholder="Search products..."
-            />
             {navLinks.map((link) => (
               <Link
                 key={link.href}
@@ -141,12 +134,6 @@ export function Navbar() {
                   </SheetHeader>
                   <div className="space-y-6">
                     <div className="px-4">
-                      <SearchInput
-                        value={searchQuery}
-              onChange={handleSearch}
-                        placeholder="Search products..."
-                        autoFocus
-                      />
                     </div>
                     <div className="flex flex-col space-y-4">
                       {navLinks.map((link) => (

@@ -34,19 +34,10 @@ export function ProductList({ products }: ProductListProps) {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-center">
-        <SearchInput 
-          value={searchQuery}
-          onChange={setSearchQuery}
-          placeholder="Search by name, description, category..."
-          className="max-w-2xl mx-auto"
-        />
-      </div>
-      
       {filteredProducts.length === 0 ? (
         <p className="text-center text-muted-foreground">No products match your search.</p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {filteredProducts.map(product => (
         <ProductCard key={product.id} product={product} />
           ))}
