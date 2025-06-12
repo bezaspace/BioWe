@@ -63,3 +63,27 @@ export interface UserProfile {
   createdAt?: string;
   lastLoginAt?: string;
 }
+
+/** Promo code and discount types **/
+
+export interface PromoCode {
+  code: string;
+  description?: string;
+  discountType: 'percentage' | 'fixed';
+  amount: number; // percentage (e.g. 10 for 10%) or fixed amount (e.g. 50 for ₹50)
+  expiresAt?: string; // ISO date string
+  isActive?: boolean;
+}
+
+export interface Discount {
+  code: string;
+  amount: number; // discount amount applied
+  discountType: 'percentage' | 'fixed';
+  description?: string;
+}
+
+export interface PromoCodeValidationResponse {
+  valid: boolean;
+  discount?: Discount;
+  message?: string;
+}

@@ -1,7 +1,7 @@
 
 "use client";
 
-import type { Product, CartItem } from '@/types';
+import type { Product, CartItem, Discount } from '@/types';
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
 interface CartContextType {
@@ -12,6 +12,10 @@ interface CartContextType {
   clearCart: () => void;
   getCartTotal: () => number;
   getCartItemCount: () => number;
+  appliedPromoCode: string | null;
+  discount: Discount | null;
+  applyPromoCode: (discount: Discount) => void;
+  removePromoCode: () => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -30,6 +34,8 @@ interface CartProviderProps {
 
 export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [appliedPromoCode, setAppliedPromoCode] = useState<string | null>(null);
+  const [discount, setDiscount] = useState<Discount | null>(null);
 
   useEffect(() => {
     // This check ensures localStorage is only accessed on the client-side
@@ -41,6 +47,16 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
         } catch (error) {
           console.error("Failed to parse cart from localStorage", error);
           localStorage.removeItem('bioWeCart'); // Clear corrupted data
+        }
+      }
+      const storedPromo = localStorage.getItem('bioWePromo');
+      if (storedPromo) {
+        try {
+          const promoObj = JSON.parse(storedPromo);
+          setAppliedPromoCode(promoObj.code || null);
+          setDiscount(promoObj.discount || null);
+        } catch (error) {
+          localStorage.removeItem('bioWePromo');
         }
       }
     }
@@ -56,6 +72,16 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       }
     }
   }, [cartItems]);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      if (appliedPromoCode && discount) {
+        localStorage.setItem('bioWePromo', JSON.stringify({ code: appliedPromoCode, discount }));
+      } else {
+        localStorage.removeItem('bioWePromo');
+      }
+    }
+  }, [appliedPromoCode, discount]);
 
   const addToCart = (product: Product, quantityToAdd: number = 1) => {
     setCartItems(prevItems => {
@@ -89,10 +115,30 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
 
   const clearCart = () => {
     setCartItems([]);
+    setAppliedPromoCode(null);
+    setDiscount(null);
+  };
+
+  const applyPromoCode = (discountObj: Discount) => {
+    setAppliedPromoCode(discountObj.code);
+    setDiscount(discountObj);
+  };
+
+  const removePromoCode = () => {
+    setAppliedPromoCode(null);
+    setDiscount(null);
   };
 
   const getCartTotal = () => {
-    return cartItems.reduce((total, item) => total + item.product.price * item.quantity, 0);
+    const subtotal = cartItems.reduce((total, item) => total + item.product.price * item.quantity, 0);
+    if (discount) {
+      if (discount.discountType === "percentage") {
+        return Math.max(0, subtotal - (subtotal * discount.amount) / 100);
+      } else if (discount.discountType === "fixed") {
+        return Math.max(0, subtotal - discount.amount);
+      }
+    }
+    return subtotal;
   };
 
   const getCartItemCount = () => {
@@ -109,6 +155,10 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
         clearCart,
         getCartTotal,
         getCartItemCount,
+        appliedPromoCode,
+        discount,
+        applyPromoCode,
+        removePromoCode,
       }}
     >
       {children}

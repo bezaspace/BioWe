@@ -7,13 +7,14 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/componen
 import Link from 'next/link';
 import { ShoppingCart, Trash2 } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
+import PromoCodeForm from '@/components/cart/PromoCodeForm';
 
 export default function CartPage() {
-  const { cartItems, getCartTotal, getCartItemCount, clearCart } = useCart();
+  const { cartItems, getCartTotal, getCartItemCount, clearCart, discount } = useCart();
   const itemCount = getCartItemCount();
-  const subtotal = getCartTotal();
-  // For MVP, taxes and shipping are 0 or not shown.
-  const total = subtotal;
+  // Subtotal before discount
+  const subtotal = cartItems.reduce((total, item) => total + item.product.price * item.quantity, 0);
+  const total = getCartTotal();
 
   const handleClearCart = () => {
     clearCart();
@@ -66,10 +67,22 @@ export default function CartPage() {
               <CardTitle>Order Summary</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
+              <PromoCodeForm />
               <div className="flex justify-between">
                 <span>Subtotal</span>
                 <span>${subtotal.toFixed(2)}</span>
               </div>
+              {discount && (
+                <div className="flex justify-between text-green-700">
+                  <span>Discount ({discount.code})</span>
+                  <span>
+                    -$
+                    {discount.discountType === "percentage"
+                      ? ((subtotal * discount.amount) / 100).toFixed(2)
+                      : discount.amount.toFixed(2)}
+                  </span>
+                </div>
+              )}
               <div className="flex justify-between text-lg font-bold">
                 <span>Total</span>
                 <span>${total.toFixed(2)}</span>
