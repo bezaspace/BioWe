@@ -7,9 +7,10 @@ import { ProductList } from '@/components/products/ProductList';
 import { mockTestimonials, mockBlogPosts, mockProducts } from '@/lib/mock-data';
 import type { Product, Testimonial, BlogPost } from '@/types';
 import { ChevronRight, Leaf, ShieldCheck, Smile, Truck, MessageSquareQuote, Rss } from 'lucide-react';
-import { TestimonialCard } from '@/components/home/TestimonialCard';
-import { BlogPostCard } from '@/components/blog/BlogPostCard'; // Import BlogPostCard
+import { TestimonialsCarousel } from '@/components/home/TestimonialsCarousel';
+import { BlogPostsCarousel } from '@/components/blog/BlogPostsCarousel'; // Import BlogPostsCarousel
 import CategoryTilesSection from '@/components/home/CategoryTilesSection';
+import CategorySection from '@/components/home/CategorySection';
 
 import { headers } from 'next/headers';
 
@@ -26,7 +27,7 @@ async function getFeaturedProducts(): Promise<Product[]> {
 }
 
 async function getTestimonials(): Promise<Testimonial[]> {
-  return Promise.resolve(mockTestimonials.slice(0, 3)); // Show first 3 testimonials
+  return Promise.resolve(mockTestimonials); // Show all testimonials for carousel
 }
 
 async function getRecentBlogPosts(): Promise<BlogPost[]> {
@@ -87,28 +88,18 @@ function WhyChooseUsSection() {
   const features = [
     {
       icon: <Leaf className="h-10 w-10 text-secondary mb-4" />,
-      title: 'Eco-Friendly Solutions',
-      description: 'Our products are sustainably sourced and environmentally conscious, helping you garden responsibly.',
-    },
-    {
-      icon: <ShieldCheck className="h-10 w-10 text-secondary mb-4" />,
-      title: 'Quality Guaranteed',
-      description: 'We stand by the quality of our supplies, ensuring you get the best for your plants and garden.',
-    },
-    {
-      icon: <Smile className="h-10 w-10 text-secondary mb-4" />,
-      title: 'Expert Support',
-      description: 'Our team of gardening enthusiasts is here to help you with advice and support for your projects.',
+      title: 'Direct from the Source',
+      description: 'We partner directly with organic farms and ethical producers to bring you the highest quality, all-natural gardening products, ensuring your plants receive the purest nutrients.',
     },
   ];
 
   return (
-    <section className="mb-16">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <h2 className="text-3xl font-bold tracking-tight text-center text-secondary mb-12">Why BioWe?</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <section className="mb-8">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <h2 className="text-3xl font-bold tracking-tight text-center text-secondary mb-6">Why BioWe?</h2>
+        <div className="grid grid-cols-1 md:grid-cols-1 gap-8">
           {features.map((feature, index) => (
-            <Card key={index} className="text-center shadow-lg hover:shadow-xl transition-shadow">
+            <Card key={index} className="text-center shadow-lg hover:shadow-xl transition-shadow max-w-md mx-auto">
               <CardHeader className="items-center">
                 {feature.icon}
                 <CardTitle className="text-xl">{feature.title}</CardTitle>
@@ -141,10 +132,8 @@ function TestimonialsSection({ testimonials }: TestimonialsSectionProps) {
             What Our Customers Say
           </h2>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {testimonials.map((testimonial) => (
-            <TestimonialCard key={testimonial.id} testimonial={testimonial} />
-          ))}
+        <div className="relative px-12 lg:px-16">
+          <TestimonialsCarousel testimonials={testimonials} />
         </div>
       </div>
     </section>
@@ -175,11 +164,7 @@ function BlogSnippetsSection({ posts }: BlogSnippetsSectionProps) {
             </Link>
           </Button>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {posts.map((post) => (
-            <BlogPostCard key={post.id} post={post} />
-          ))}
-        </div>
+        <BlogPostsCarousel posts={posts} />
       </div>
     </section>
   );
@@ -216,6 +201,7 @@ export default async function HomePage() {
     <div>
       <CategoryTilesSection products={allProducts} />
       <HeroSection />
+      <CategorySection />
       <FeaturedProductsSection products={featuredProducts} />
       <WhyChooseUsSection />
       <TestimonialsSection testimonials={testimonials} />

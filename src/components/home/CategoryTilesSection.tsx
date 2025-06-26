@@ -45,7 +45,7 @@ export const CategoryTilesSection: React.FC<CategoryTilesSectionProps> = ({ prod
   return (
     <section className="mb-1">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-1">
-        <div className="flex md:grid md:grid-cols-6 gap-3 overflow-x-auto">
+        <div className="flex md:grid md:grid-cols-6 gap-3 overflow-x-auto no-scrollbar">
           {categories.map((category) => (
             <Link
               key={category.name}
