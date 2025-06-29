@@ -13,7 +13,7 @@ interface PexelsImageProps extends Omit<NextImageProps, 'src' | 'alt'> {
   orientation?: 'landscape' | 'portrait' | 'square';
 }
 
-const PEXELS_API_KEY = 'DdWPcf1SxT9pcCdjeeeHLrDsXWtB19DNYIMPM3YskpPjkDdKpjIlo0QO';
+const PEXELS_API_KEY = process.env.NEXT_PUBLIC_PEXELS_API_KEY;
 
 async function fetchPexelsImage(query: string, orientation: PexelsImageProps['orientation'] = 'landscape'): Promise<string | null> {
   if (!query) return null;

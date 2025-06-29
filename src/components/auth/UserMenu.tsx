@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useAuth } from '@/context/auth/AuthContext';
-import { LogOut, User as UserIcon } from 'lucide-react';
+import { LogOut, User as UserIcon, Package } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 export function UserMenu() {
@@ -64,6 +64,10 @@ export function UserMenu() {
         <DropdownMenuItem onClick={() => router.push('/profile')}>
           <UserIcon className="mr-2 h-4 w-4" />
           <span>Profile</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => router.push('/orders')}>
+          <Package className="mr-2 h-4 w-4" />
+          <span>My Orders</span>
         </DropdownMenuItem>
         <DropdownMenuItem onClick={signOut}>
           <LogOut className="mr-2 h-4 w-4" />

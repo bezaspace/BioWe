@@ -5,12 +5,19 @@ import { CartItemCard } from '@/components/cart/CartItemCard';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
-import { ShoppingCart, Trash2 } from 'lucide-react';
+import { ShoppingCart, Trash2, CreditCard } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
+import { useAuth } from '@/context/auth/AuthContext';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import PromoCodeForm from '@/components/cart/PromoCodeForm';
 
 export default function CartPage() {
-  const { cartItems, getCartTotal, getCartItemCount, clearCart, discount } = useCart();
+  const { cartItems, getCartTotal, getCartItemCount, clearCart, discount, placeOrder } = useCart();
+  const { user, getIdToken } = useAuth();
+  const router = useRouter();
+  const [isPlacingOrder, setIsPlacingOrder] = useState(false);
+  
   const itemCount = getCartItemCount();
   // Subtotal before discount
   const subtotal = cartItems.reduce((total, item) => total + item.product.price * item.quantity, 0);
@@ -25,11 +32,32 @@ export default function CartPage() {
     });
   };
 
-  const handleProceedToCheckout = () => {
-    toast({
-      title: "Checkout Not Implemented",
-      description: "This is an MVP. Payment gateway integration is not available yet.",
-    });
+  const handleProceedToCheckout = async () => {
+    if (!user) {
+      toast({
+        title: "Please Sign In",
+        description: "You need to be signed in to place an order.",
+        variant: "destructive",
+      });
+      router.push('/login');
+      return;
+    }
+
+    setIsPlacingOrder(true);
+    try {
+      const orderId = await placeOrder();
+      if (orderId) {
+        router.push(`/orders/confirmation/${orderId}`);
+      }
+    } catch (error: any) {
+      toast({
+        title: "Order Failed",
+        description: error.message || "Failed to place order. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsPlacingOrder(false);
+    }
   };
 
   if (itemCount === 0) {
@@ -89,8 +117,27 @@ export default function CartPage() {
               </div>
             </CardContent>
             <CardFooter className="flex flex-col space-y-3">
-              <Button onClick={handleProceedToCheckout} className="w-full">Proceed to Checkout</Button>
-              <Button variant="outline" onClick={handleClearCart} className="w-full">
+              <Button 
+                onClick={handleProceedToCheckout} 
+                className="w-full" 
+                disabled={isPlacingOrder}
+              >
+                {isPlacingOrder ? (
+                  <>
+                    <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Placing Order...
+                  </>
+                ) : (
+                  <>
+                    <CreditCard className="mr-2 h-4 w-4" />
+                    Place Order
+                  </>
+                )}
+              </Button>
+              <Button variant="outline" onClick={handleClearCart} className="w-full" disabled={isPlacingOrder}>
                 <Trash2 className="mr-2 h-4 w-4" /> Clear Cart
               </Button>
             </CardFooter>

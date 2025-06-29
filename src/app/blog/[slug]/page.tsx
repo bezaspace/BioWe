@@ -1,9 +1,8 @@
 
 "use client";
 
-import { notFound, useParams } from 'next/navigation'; // Import useParams
+import { notFound, useParams } from 'next/navigation';
 import type { BlogPost } from '@/types';
-import { mockBlogPosts } from '@/lib/mock-data';
 import { CalendarDays, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
@@ -11,11 +10,25 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { PexelsImage } from '@/components/shared/PexelsImage';
 import { useEffect, useState } from 'react';
 
-// This function would typically fetch from a CMS or database.
-// For client-side fetching, we'll adapt it slightly.
+// Fetch blog post by slug from API
 async function getPostBySlug(slug: string): Promise<BlogPost | undefined> {
-  // Simulating async fetch for mock data
-  return Promise.resolve(mockBlogPosts.find(post => post.slug === slug));
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:9002';
+    const res = await fetch(`${baseUrl}/api/blog`, {
+      cache: 'no-store',
+    });
+    
+    if (!res.ok) {
+      console.error('Failed to fetch blog posts:', res.status, res.statusText);
+      return undefined;
+    }
+    
+    const posts: BlogPost[] = await res.json();
+    return posts.find(post => post.slug === slug);
+  } catch (error) {
+    console.error('Error fetching blog post:', error);
+    return undefined;
+  }
 }
 
 export default function BlogPostPage() { // Removed params from props

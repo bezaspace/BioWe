@@ -11,7 +11,7 @@ interface TestimonialCardProps {
   testimonial: Testimonial;
 }
 
-const PEXELS_API_KEY_TESTIMONIAL = 'DdWPcf1SxT9pcCdjeeeHLrDsXWtB19DNYIMPM3YskpPjkDdKpjIlo0QO';
+const PEXELS_API_KEY_TESTIMONIAL = process.env.NEXT_PUBLIC_PEXELS_API_KEY;
 
 async function fetchPexelsAvatar(query: string): Promise<string | null> {
   if (!query) return null;

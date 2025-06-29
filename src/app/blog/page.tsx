@@ -1,12 +1,26 @@
 
 import { BlogPostCard } from '@/components/blog/BlogPostCard';
 import type { BlogPost } from '@/types';
-import { mockBlogPosts } from '@/lib/mock-data';
 import { Rss } from 'lucide-react';
 
 async function getBlogPosts(): Promise<BlogPost[]> {
-  // In a real app, you'd fetch this from a CMS or database
-  return Promise.resolve(mockBlogPosts);
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:9002';
+    const res = await fetch(`${baseUrl}/api/blog`, {
+      cache: 'no-store', // Ensure fresh data on each request
+    });
+    
+    if (!res.ok) {
+      console.error('Failed to fetch blog posts:', res.status, res.statusText);
+      return [];
+    }
+    
+    const posts = await res.json();
+    return posts;
+  } catch (error) {
+    console.error('Error fetching blog posts:', error);
+    return [];
+  }
 }
 
 export default async function BlogPage() {

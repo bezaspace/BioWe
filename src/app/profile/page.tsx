@@ -34,6 +34,21 @@ export default function ProfilePage() {
   // Load user data when component mounts
   useEffect(() => {
     if (user) {
+      // Load from localStorage first
+      const savedProfile = localStorage.getItem('bioWeUserProfile');
+      if (savedProfile) {
+        try {
+          const parsedProfile = JSON.parse(savedProfile);
+          if (parsedProfile.uid === user.uid) {
+            setProfile(parsedProfile);
+            return;
+          }
+        } catch (error) {
+          console.error('Error parsing saved profile:', error);
+        }
+      }
+      
+      // Fallback to user auth data
       setProfile(prev => ({
         ...prev,
         displayName: user.displayName || '',
@@ -71,6 +86,16 @@ export default function ProfilePage() {
     setIsLoading(true);
     
     try {
+      // Save profile data to localStorage for now
+      // In a real app, this would be saved to Firestore
+      const profileData = {
+        ...profile,
+        uid: user?.uid,
+        updatedAt: new Date().toISOString(),
+      };
+      
+      localStorage.setItem('bioWeUserProfile', JSON.stringify(profileData));
+      
       // TODO: Save profile data to Firestore
       // This would be implemented when you set up Firestore
       
