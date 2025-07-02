@@ -1,6 +1,7 @@
 import { cert, getApps, getApp, initializeApp, App, ServiceAccount } from 'firebase-admin/app';
 import { getAuth as getAdminAuth } from 'firebase-admin/auth';
 import { getStorage } from 'firebase-admin/storage';
+import { getFirestore } from 'firebase-admin/firestore';
 
 const serviceAccount: ServiceAccount = {
   projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
@@ -21,5 +22,6 @@ if (getApps().length === 0) {
 
 const adminAuth = getAdminAuth(adminApp);
 const adminStorage = getStorage(adminApp);
+const adminFirestore = getFirestore(adminApp);
 
-export { adminApp, adminAuth, adminStorage };
+export { adminApp, adminAuth, adminStorage, adminFirestore };

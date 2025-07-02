@@ -11,6 +11,8 @@ import { useAuth } from '@/context/auth/AuthContext';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import PromoCodeForm from '@/components/cart/PromoCodeForm';
+import { RecommendedProducts } from '@/components/products/RecommendedProducts';
+import { Product } from '@/types';
 
 export default function CartPage() {
   const { cartItems, getCartTotal, getCartItemCount, clearCart, discount, placeOrder } = useCart();
@@ -72,6 +74,8 @@ export default function CartPage() {
       </div>
     );
   }
+
+  const cartProducts = cartItems.map(item => item.product);
 
   return (
     <div>
@@ -143,6 +147,9 @@ export default function CartPage() {
             </CardFooter>
           </Card>
         </div>
+      </div>
+      <div className="mt-16">
+        <RecommendedProducts cartProducts={cartProducts} />
       </div>
     </div>
   );
