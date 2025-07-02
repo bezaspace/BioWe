@@ -88,20 +88,26 @@ export function Navbar() {
                   </div>
                   <div className="flex flex-col space-y-4">
                     {navLinks.map((link) => (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      onClick={() => setIsOpen(false)}
-                      className={cn(
-                        "text-lg hover:text-primary transition-colors px-4 py-2 rounded-md",
-                        getIsActive(pathname, link.href)
-                          ? "text-primary font-semibold bg-primary/10" 
-                          : "text-foreground"
-                      )}
-                    >
-                      {link.label}
-                    </Link>
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        onClick={() => setIsOpen(false)}
+                        className={cn(
+                          "text-lg hover:text-primary transition-colors px-4 py-2 rounded-md",
+                          getIsActive(pathname, link.href)
+                            ? "text-primary font-semibold bg-primary/10"
+                            : "text-foreground"
+                        )}
+                      >
+                        {link.label}
+                      </Link>
                     ))}
+                    {/* Sign In/UserMenu for mobile sidebar just below nav links */}
+                    {!loading && (
+                      <div className="flex flex-col items-start space-y-2 pt-2">
+                        {user ? <UserMenu /> : <LoginModal />}
+                      </div>
+                    )}
                   </div>
                 </div>
               </SheetContent>
@@ -140,15 +146,6 @@ export function Navbar() {
           </div>
 
           <div className="flex items-center space-x-4">
-            {!loading && (
-              <div className="flex items-center space-x-2">
-                {user ? (
-                  <UserMenu />
-                ) : (
-                  <LoginModal />
-                )}
-              </div>
-            )}
             <Link href="/cart" className="relative flex items-center text-foreground hover:text-primary transition-colors p-2">
               <ShoppingBag className="h-7 w-7" />
               {cartItemCount > 0 && (
