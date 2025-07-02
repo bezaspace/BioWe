@@ -1,6 +1,14 @@
 
 import React from 'react';
 import CategoryCard from './CategoryCard';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselPrevious,
+  CarouselNext,
+  CarouselDots,
+} from '@/components/ui/carousel';
 
 const categories = [
   {
@@ -28,14 +36,32 @@ const CategorySection: React.FC = () => {
         <div className="text-center mb-8">
           <h2 className="text-3xl font-bold tracking-tight text-secondary">Shop by Category</h2>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {categories.map((category, index) => (
-            <CategoryCard
-              key={index}
-              title={category.title}
-              imageUrl={category.imageUrl}
-            />
-          ))}
+        <div className="relative flex flex-col items-center">
+          <Carousel
+            opts={{
+              align: 'center',
+              containScroll: 'trimSnaps',
+              slidesToScroll: 1,
+            }}
+            className="w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl"
+          >
+            <CarouselContent>
+              {categories.map((category, index) => (
+                <CarouselItem
+                  key={index}
+                  className="basis-[80%] sm:basis-[70%] md:basis-[60%] lg:basis-[45%] transition-all"
+                >
+                  <CategoryCard
+                    title={category.title}
+                    imageUrl={category.imageUrl}
+                  />
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+            <CarouselDots count={categories.length} />
+          </Carousel>
         </div>
       </div>
     </section>

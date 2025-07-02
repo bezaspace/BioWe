@@ -67,6 +67,16 @@ function HeroSection() {
 interface FeaturedProductsProps {
   products: Product[];
 }
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselPrevious,
+  CarouselNext,
+  CarouselDots,
+} from '@/components/ui/carousel';
+import { ProductCard } from '@/components/products/ProductCard';
+
 function FeaturedProductsSection({ products }: FeaturedProductsProps) {
   return (
     <section className="mb-16">
@@ -78,7 +88,30 @@ function FeaturedProductsSection({ products }: FeaturedProductsProps) {
           </Link>
         </Button>
       </div>
-      <ProductList products={products} />
+      <div className="relative flex flex-col items-center">
+        <Carousel
+          opts={{
+            align: 'center',
+            containScroll: 'trimSnaps',
+            slidesToScroll: 1,
+          }}
+          className="w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl"
+        >
+          <CarouselContent>
+            {products.map((product) => (
+              <CarouselItem
+                key={product.id}
+                className="basis-[80%] sm:basis-[70%] md:basis-[60%] lg:basis-[45%] transition-all"
+              >
+                <ProductCard product={product} />
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+          <CarouselDots count={products.length} />
+        </Carousel>
+      </div>
     </section>
   );
 }

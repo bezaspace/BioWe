@@ -12,7 +12,7 @@ interface CategoryCardProps {
 
 const CategoryCard: React.FC<CategoryCardProps> = ({ title, imageUrl }) => {
   return (
-    <Card className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 h-full">
+    <Card className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 h-full w-[260px] sm:w-[300px] md:w-[340px] mx-auto">
       <CardHeader className="p-0">
         <Link href={`/products?category=${encodeURIComponent(title)}`} className="block relative w-full h-48">
           <Image

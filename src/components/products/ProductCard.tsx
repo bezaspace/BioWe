@@ -33,7 +33,7 @@ export function ProductCard({ product }: ProductCardProps) {
   const decreaseQuantity = () => setQuantity(prev => Math.max(1, prev - 1));
 
   return (
-    <Card className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 h-full">
+    <Card className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 h-full w-[260px] sm:w-[300px] md:w-[340px] mx-auto">
       <CardHeader className="p-0">
         <Link href={`/products/${product.id}`} className="block relative w-full h-48">
           <Image
