@@ -77,4 +77,4 @@ firestore-debug.log
 # local dev
 .gemini/
 ngrok.exe
-ngrok.zip
+ngrok.zip.env
