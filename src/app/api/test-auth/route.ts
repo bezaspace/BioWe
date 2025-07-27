@@ -2,11 +2,13 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from 'firebase-admin';
 
 export async function POST(request: NextRequest) {
-  console.log('TEST AUTH API - Starting');
+  // Only log in development mode
+  if (process.env.NODE_ENV === 'development') {
+    console.log('TEST AUTH API - Starting');
+  }
   
   try {
     const authHeader = request.headers.get('authorization');
-    console.log('TEST AUTH API - Auth header present:', !!authHeader);
     
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
       return NextResponse.json({ 
@@ -16,11 +18,14 @@ export async function POST(request: NextRequest) {
     }
 
     const token = authHeader.split(' ')[1];
-    console.log('TEST AUTH API - Token length:', token.length);
     
     try {
       const decoded = await auth().verifyIdToken(token);
-      console.log('TEST AUTH API - Token verified successfully for:', decoded.uid);
+      
+      // Only log success in development
+      if (process.env.NODE_ENV === 'development') {
+        console.log('TEST AUTH API - Token verified successfully for user');
+      }
       
       return NextResponse.json({
         success: true,
@@ -31,18 +36,22 @@ export async function POST(request: NextRequest) {
         }
       });
     } catch (tokenError) {
-      console.error('TEST AUTH API - Token verification failed:', tokenError);
+      // Log errors but don't expose sensitive details in production
+      if (process.env.NODE_ENV === 'development') {
+        console.error('TEST AUTH API - Token verification failed:', tokenError);
+      }
       return NextResponse.json({ 
         error: 'Invalid token',
-        details: tokenError instanceof Error ? tokenError.message : 'Unknown token error',
         success: false 
       }, { status: 401 });
     }
   } catch (error) {
-    console.error('TEST AUTH API - General error:', error);
+    // Log errors but don't expose sensitive details in production
+    if (process.env.NODE_ENV === 'development') {
+      console.error('TEST AUTH API - General error:', error);
+    }
     return NextResponse.json({ 
       error: 'Server error',
-      details: error instanceof Error ? error.message : 'Unknown error',
       success: false 
     }, { status: 500 });
   }

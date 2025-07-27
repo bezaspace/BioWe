@@ -34,7 +34,10 @@ export async function middleware(request: NextRequest) {
     // If we get here, the session is valid and user is admin
     return NextResponse.next();
   } catch (error) {
-    console.error('Authentication error:', error);
+    // Log error in development but avoid exposing details in production
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Authentication error:', error);
+    }
     const loginUrl = new URL('/login', request.url);
     loginUrl.searchParams.set('redirect', request.nextUrl.pathname);
     return NextResponse.redirect(loginUrl);

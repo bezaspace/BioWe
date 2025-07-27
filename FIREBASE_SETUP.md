@@ -38,6 +38,12 @@ NEXT_PUBLIC_FIREBASE_AUTH_EMULATOR_HOST=localhost:9099
 FIREBASE_ADMIN_PROJECT_ID=your-project-id
 FIREBASE_ADMIN_CLIENT_EMAIL=your-client-email
 FIREBASE_ADMIN_PRIVATE_KEY="your-private-key"
+
+# Pexels API (for dynamic image fetching - optional)
+NEXT_PUBLIC_PEXELS_API_KEY=your-pexels-api-key
+
+# Google AI API (for Genkit AI functionality - optional)
+GOOGLE_AI_API_KEY=your-google-ai-api-key
 ```
 
 ## 4. Set Up Firebase Admin (Optional)
@@ -61,7 +67,22 @@ npm run dev
 3. You should see your profile picture/initials in the top-right corner
 4. Click on your profile to see the dropdown menu with the sign-out option
 
-## 7. Deploying to Production
+## 7. Optional Services Setup
+
+### Pexels API (for Dynamic Image Fetching)
+1. Go to [Pexels API](https://www.pexels.com/api/)
+2. Sign up for a free account
+3. Generate an API key
+4. Add `NEXT_PUBLIC_PEXELS_API_KEY=your-api-key` to your `.env.local`
+
+### Google AI API (for Genkit AI Functionality)
+1. Go to [Google AI Studio](https://aistudio.google.com/)
+2. Create an API key
+3. Add `GOOGLE_AI_API_KEY=your-api-key` to your `.env.local`
+
+Note: These services are optional. The app will work without them but with reduced functionality.
+
+## 8. Deploying to Production
 
 1. Make sure to update the authorized domains in the Firebase Console:
    - Go to Authentication > Settings > Authorized domains
