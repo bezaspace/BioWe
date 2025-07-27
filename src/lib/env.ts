@@ -16,11 +16,17 @@ export function validateEnv() {
   const missingVars = requiredEnvVars.filter(varName => !process.env[varName]);
   
   if (missingVars.length > 0) {
-    console.error('❌ Missing required environment variables:', missingVars.join(', '));
+    // Only log detailed error in development
+    if (process.env.NODE_ENV === 'development') {
+      console.error('❌ Missing required environment variables:', missingVars.join(', '));
+    }
     throw new Error(`Missing required environment variables: ${missingVars.join(', ')}`);
   }
 
-  console.log('✅ All required environment variables are set');
+  // Only log success in development
+  if (process.env.NODE_ENV === 'development') {
+    console.log('✅ All required environment variables are set');
+  }
 }
 
 // This will run when the file is imported
@@ -28,9 +34,9 @@ if (typeof window === 'undefined') {
   // Server-side
   validateEnv();
 } else {
-  // Client-side - just log a warning
+  // Client-side - just log a warning in development
   requiredEnvVars.forEach(varName => {
-    if (!process.env[varName]) {
+    if (!process.env[varName] && process.env.NODE_ENV === 'development') {
       console.warn(`⚠️ Missing environment variable: ${varName}`);
     }
   });

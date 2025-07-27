@@ -10,7 +10,9 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
-    "seed:blog": "tsx scripts/seedBlogPosts.ts"
+    "seed:blog": "tsx scripts/seedBlogPosts.ts",
+    "security:audit": "npm audit",
+    "security:check": "grep -r -i 'api.*key\\|secret\\|password' --include='*.ts' --include='*.tsx' src/ || echo 'No hardcoded secrets found'"
   },
   "dependencies": {
     "@genkit-ai/googleai": "^1.8.0",
